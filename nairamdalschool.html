@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nairamdal School</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #3b82f6;
+            --secondary-color: #10b981;
+            --background-light: #f8fafc;
+            --surface-light: #ffffff;
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+            --border-color: #e2e8f0;
+            --shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
+        }
+
+        .dark-mode {
+            --background-light: #0f172a;
+            --surface-light: #1e293b;
+            --text-primary: #f1f5f9;
+            --text-secondary: #94a3b8;
+            --border-color: #334155;
+            --shadow: 0 4px 6px -1px rgba(0,0,0,0.5), 0 2px 4px -1px rgba(0,0,0,0.3);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--background-light);
+            color: var(--text-primary);
+            line-height: 1.6;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header Styles */
+        header {
+            background-color: var(--surface-light);
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .top-bar {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 8px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .contact-info {
+            display: flex;
+            gap: 20px;
+            font-size: 0.9rem;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo img {
+            height: 50px;
+            width: auto;
+        }
+
+        .logo h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-weight: 500;
+            transition: color 0.3s;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-color);
+        }
+
+        .nav-links a.active {
+            color: var(--primary-color);
+        }
+
+        .nav-links a.active::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: var(--primary-color);
+        }
+
+        .controls {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .lang-selector, .theme-toggle {
+            background: var(--surface-light);
+            border: 1px solid var(--border-color);
+            padding: 8px 12px;
+            border-radius: 6px;
+            color: var(--text-primary);
+            cursor: pointer;
+        }
+
+        /* Hero Slider */
+        .hero {
+            height: 500px;
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('') center/cover no-repeat;
+        }
+
+        .slider-container {
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-align: center;
+            opacity: 0;
+            transition: opacity 1s ease;
+        }
+
+        .slide.active {
+            opacity: 1;
+        }
+
+        .slide-content {
+            max-width: 800px;
+            padding: 20px;
+        }
+
+        .slide h2 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        .slide p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 12px 30px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background-color: #2563eb;
+            transform: translateY(-3px);
+            box-shadow: var(--shadow);
+        }
+
+        .btn-secondary {
+            background-color: var(--secondary-color);
+        }
+
+        .btn-secondary:hover {
+            background-color: #059669;
+        }
+
+        /* Main Content */
+        .main-content {
+            padding: 50px 0;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            margin-bottom: 30px;
+            color: var(--text-primary);
+            position: relative;
+            padding-bottom: 15px;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background-color: var(--primary-color);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+
+        .feature-card {
+            background: var(--surface-light);
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature-card h3 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .feature-card p {
+            color: var(--text-secondary);
+            margin-bottom: 15px;
+        }
+
+        .card-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        /* News & Announcements */
+        .news-section {
+            background: var(--surface-light);
+            border-radius: 10px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: var(--shadow);
+        }
+
+        .news-item {
+            padding: 20px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .news-item:last-child {
+            border-bottom: none;
+        }
+
+        .news-item h4 {
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+
+        .news-date {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 10px;
+        }
+
+        /* Social Media Links */
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            transition: transform 0.3s;
+        }
+
+        .social-link:hover {
+            transform: scale(1.1);
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--surface-light);
+            color: var(--text-secondary);
+            padding: 50px 0 20px;
+            margin-top: 50px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .footer-column h3 {
+            color: var(--text-primary);
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 2px;
+            background-color: var(--primary-color);
+        }
+
+        .footer-column ul {
+            list-style: none;
+        }
+
+        .footer-column ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer-column ul li a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-column ul li a:hover {
+            color: var(--primary-color);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero h2 {
+                font-size: 2rem;
+            }
+
+            .top-bar {
+                flex-direction: column;
+                gap: 5px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="top-bar">
+            <div class="container">
+                <div class="contact-info">
+                    <span>+976 11323739</span>
+                    <span>friendshipschool11@gmail.com</span>
+                    <span>Ulaanbaatar, Mongolia</span>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <nav>
+                <div class="logo">
+                    <img src="" alt="Nairamdal School Logo"> <!-- PLACEHOLDER IMAGE -->
+                    <h1>Nairamdal School of Ulaanbaatar</h1>
+                </div>
+                <div class="nav-links">
+                    <a href="#" class="active">Home</a>
+                    <a href="#">About</a>
+                    <a href="#">Curriculum</a>
+                    <a href="#">News</a>
+                    <a href="#">Gallery</a>
+                    <a href="#">Contact</a>
+                </div>
+                <div class="controls">
+                    <select class="lang-selector">
+                        <option>English</option>
+                        <option>Монгол</option>
+                        <option>中文</option>
+                        </select>
+                    <button class="theme-toggle" id="themeToggle">🌙</button>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Slider -->
+    <section class="hero">
+        <div class="slider-container">
+            <div class="slide active">
+                <div class="slide-content">
+                    <h2>Nairamdal School</h2>
+                    <p>Since 1964, providing quality education in Ulaanbaatar.</p>
+                    <div style="margin-top: 20px;">
+                        <a href="#" class="btn">Enroll Now</a>
+                        <a href="#" class="btn btn-secondary">Learn More</a>
+                    </div>
+                </div>
+            </div>
+            <div class="slide">
+                <div class="slide-content">
+                    <h2>Quality Education</h2>
+                    <p>Comprehensive curriculum with focus on discipline, critical thinking, and adaptability</p>
+                    <a href="#" class="btn">Our Programs</a>
+                </div>
+            </div>
+            <div class="slide">
+                <div class="slide-content">
+                    <h2>Community Focused</h2>
+                    <p>Building strong relationships between students, parents, and educators.</p>
+                    <a href="#" class="btn">Get Involved</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="main-content container">
+        <!-- Features Section -->
+        <h2 class="section-title">Our Features</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <h3>Curriculum</h3>
+                <p>Comprehensive academic programs designed to challenge and inspire students</p>
+                <div class="card-actions">
+                    <a href="#" class="btn">View Curriculum</a>
+                </div>
+            </div>
+            
+            <div class="feature-card">
+                <h3>Staff Directory</h3>
+                <p>Meet our dedicated team of educators and administrators</p>
+                <div class="card-actions">
+                    <a href="#" class="btn">View Directory</a>
+                </div>
+            </div>
+            
+            <div class="feature-card">
+                <h3>Events & Calendar</h3>
+                <p>Upcoming events, holidays, and important dates</p>
+                <div class="card-actions">
+                    <a href="#" class="btn">View Calendar</a>
+                </div>
+            </div>
+            
+            <div class="feature-card">
+                <h3>Photo Gallery</h3>
+                <p>Memories and moments from school activities and events</p>
+                <div class="card-actions">
+                    <a href="#" class="btn">View Gallery</a>
+                </div>
+            </div>
+            
+            <div class="feature-card">
+                <h3>🎓 Awards & Achievements</h3>
+                <p>Recognitions and accomplishments of our students and staff</p>
+                <div class="card-actions">
+                    <a href="#" class="btn">View Gallery</a>
+                </div>
+            </div>
+            
+            
+
+        <!-- News & Announcements -->
+        <h2 class="section-title">News & Announcements</h2>
+        <div class="news-section">
+            <div class="news-item">
+                <h4>Annual Science Fair Results</h4>
+                <div class="news-date">March 15, 2026</div>
+                <p>Congratulations to our students who participated in the annual science fair. Our students won first place in the city competition!</p>
+            </div>
+            
+           
+        </div>
+
+        <!-- Social Media Links -->
+        <h2 class="section-title">Connect With Us</h2>
+        <div class="social-links">
+            <a href="https://www.facebook.com/Nairamdalschool" class="social-link" target="_blank">
+                <i class="fab fa-facebook-f"></i>
+            </a>
+            <!-- Instagram link put it in -->
+            <a href="" class="social-link" target="_blank">
+                <i class="fab fa-instagram"></i>
+            </a>
+
+            </a>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="#">Student Portal</a></li>
+                        <li><a href="#">Staff Directory</a></li>
+                        <li><a href="#">Academic Calendar</a></li>
+                        <li><a href="#">School Policies</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h3>Administration</h3>
+                    <ul>
+                        <li><a href="#">Board of Directors</a></li>
+                        <li><a href="#">Volunteer Sign-up</a></li>
+                        <li><a href="#">Fundraising</a></li>
+                        <li><a href="#">Job Postings</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                    </ul>
+                </div>
+            </div>            <title>Hobby School of Ulaanbaatar</title>
+        </div>
+    </footer>
+
+    <script>
+        // Theme toggle functionality
+        const themeToggle = document.getElementById('themeToggle');
+        const body = document.body;
+        
+        // Check for saved theme preference
+        if (localStorage.getItem('theme') === 'dark') {
+            body.classList.add('dark-mode');
+            themeToggle.textContent = '☀️';
+        }
+        
+        themeToggle.addEventListener('click', () => {
+            body.classList.toggle('dark-mode');
+            
+            if (body.classList.contains('dark-mode')) {
+                themeToggle.textContent = '☀️';
+                localStorage.setItem('theme', 'dark');
+            } else {
+                themeToggle.textContent = '🌙';
+                localStorage.setItem('theme', 'light');
+            }
+        });
+        
+        // Language selector functionality
+        const langSelector = document.querySelector('.lang-selector');
+        
+        langSelector.addEventListener('change', function() {
+            const selectedLang = this.value;
+            console.log(`Language changed to: ${selectedLang}`);
+        });
+        
+        // Simple slider functionality
+        let slideIndex = 0;
+        const slides = document.querySelectorAll('.slide');
+        
+        function showSlides() {
+            // Hide all slides
+            slides.forEach(slide => slide.classList.remove('active'));
+            
+            // Show current slide
+            slideIndex++;
+            if (slideIndex > slides.length) {slideIndex = 1}
+            slides[slideIndex-1].classList.add('active');
+            
+            // Change slide every 5 seconds
+            setTimeout(showSlides, 5000);
+        }
+        
+        // Initialize slider
+        showSlides();
+        
+        // Tab navigation functionality
+        const navLinks = document.querySelectorAll('.nav-links a');
+        
+        navLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Remove active class from all links
+                navLinks.forEach(l => l.classList.remove('active'));
+                
+                // Add active class to clicked link
+                this.classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>
