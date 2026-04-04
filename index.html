@@ -1,948 +1,124 @@
- <!DOCTYPE html>
- <html lang="en">
- <head>
-     <meta charset="UTF-8">
-     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-     <title>Nairamdal School</title>
-     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-     <style>
-         :root {
-             --primary-color: #3b82f6;
-             --secondary-color: #10b981;
-             --background-light: #f8fafc;
-             --surface-light: #ffffff;
-             --text-primary: #1e293b;
-             --text-secondary: #64748b;
-             --border-color: #e2e8f0;
-             --shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
-         }
-
-         .dark-mode {
-             --background-light: #0f172a;
-             --surface-light: #1e293b;
-             --text-primary: #f1f5f9;
-             --text-secondary: #94a3b8;
-             --border-color: #334155;
-             --shadow: 0 4px 6px -1px rgba(0,0,0,0.5), 0 2px 4px -1px rgba(0,0,0,0.3);
-         }
-
-         * {
-             margin: 0;
-             padding: 0;
-             box-sizing: border-box;
-             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-         }
-
-         body {
-             background-color: var(--background-light);
-             color: var(--text-primary);
-             line-height: 1.6;
-             transition: background-color 0.3s, color 0.3s;
-         }
-
-         .container {
-             max-width: 1200px;
-             margin: 0 auto;
-             padding: 0 20px;
-         }
-
-         /* Header Styles */
-         header {
-             background-color: var(--surface-light);
-             box-shadow: var(--shadow);
-             position: sticky;
-             top: 0;
-             z-index: 100;
-         }
-
-         .top-bar {
-             background-color: var(--primary-color);
-             color: white;
-             padding: 8px 0;
-             display: flex;
-             justify-content: space-between;
-             align-items: center;
-         }
-
-         .contact-info {
-             display: flex;
-             gap: 20px;
-             font-size: 0.9rem;
-         }
-
-         nav {
-             display: flex;
-             justify-content: space-between;
-             align-items: center;
-             padding: 20px 0;
-         }
-
-         .logo {
-             display: flex;
-             align-items: center;
-             gap: 15px;
-         }
-
-         .logo img {
-             height: 150px;
-             width: auto;
-         }
-
-         .logo h1 {
-             font-size: 1.5rem;
-             font-weight: 700;
-             color: var(--text-primary);
-         }
-
-         .nav-links {
-             display: flex;
-             gap: 30px;
-         }
-
-         .nav-links a {
-             text-decoration: none;
-             color: var(--text-secondary);
-             font-weight: 500;
-             transition: color 0.3s;
-             position: relative;
-         }
-
-         .nav-links a:hover {
-             color: var(--primary-color);
-         }
-
-         .nav-links a.active {
-             color: var(--primary-color);
-         }
-
-         .nav-links a.active::after {
-             content: '';
-             position: absolute;
-             bottom: -5px;
-             left: 0;
-             width: 100%;
-             height: 2px;
-             background-color: var(--primary-color);
-         }
-
-         .controls {
-             display: flex;
-             align-items: center;
-             gap: 15px;
-         }
-
-         .lang-selector, .theme-toggle {
-             background: var(--surface-light);
-             border: 1px solid var(--border-color);
-             padding: 8px 12px;
-             border-radius: 6px;
-             color: var(--text-primary);
-             cursor: pointer;
-         }
-
-         /* Hero Slider */
-         .hero {
-             height: 500px;
-             position: relative;
-             overflow: hidden;
-             /* This is the fallback background if images fail to load */
-             background: linear-gradient(rgba(34,56,76,1.6), rgba(0,0,0,0.6)), url('') center/cover no-repeat;
-         }
-
-         .slider-container {
-             width: 100%;
-             height: 100%;
-             position: relative;
-         }
-
-         /* Update the background property in each of these .slide rules */
-         .slide:nth-child(1) { /* First Slide */
-             background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('images/slider1.jpg') center/cover no-repeat; /* Replace with path to your FIRST slider image */
-         }
-         .slide:nth-child(2) { /* Second Slide */
-             background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('images/slider2.jpg') center/cover no-repeat; /* Replace with path to your SECOND slider image */
-         }
-         .slide:nth-child(3) { /* Third Slide */
-             background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('images/slider3.jpg') center/cover no-repeat; /* Replace with path to your THIRD slider image */
-         }
-
-         .slide {
-             position: absolute;
-             top: 0;
-             left: 0;
-             width: 100%;
-             height: 100%;
-             display: flex;
-             align-items: center;
-             justify-content: center;
-             color: white;
-             text-align: center;
-             opacity: 0;
-             transition: opacity 1s ease;
-         }
-
-         .slide.active {
-             opacity: 1;
-         }
-
-         .slide-content {
-             max-width: 800px;
-             padding: 20px;
-         }
-
-         .slide h2 {
-             font-size: 3rem;
-             margin-bottom: 20px;
-             font-weight: 700;
-         }
-
-         .slide p {
-             font-size: 1.2rem;
-             margin-bottom: 30px;
-         }
-
-         .btn {
-             display: inline-block;
-             background-color: var(--primary-color);
-             color: white;
-             padding: 12px 30px;
-             border-radius: 30px;
-             text-decoration: none;
-             font-weight: 500;
-             transition: all 0.3s;
-             border: none;
-             cursor: pointer;
-         }
-
-         .btn:hover {
-             background-color: #2563eb;
-             transform: translateY(-3px);
-             box-shadow: var(--shadow);
-         }
-
-         .btn-secondary {
-             background-color: var(--secondary-color);
-         }
-
-         .btn-secondary:hover {
-             background-color: #059669;
-         }
-
-         /* Main Content */
-         .main-content {
-             padding: 50px 0;
-         }
-
-         .section-title {
-             font-size: 2rem;
-             margin-bottom: 30px;
-             color: var(--text-primary);
-             position: relative;
-             padding-bottom: 15px;
-         }
-
-         .section-title::after {
-             content: '';
-             position: absolute;
-             bottom: 0;
-             left: 0;
-             width: 60px;
-             height: 3px;
-             background-color: var(--primary-color);
-         }
-
-         .features-grid {
-             display: grid;
-             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-             gap: 30px;
-             margin-bottom: 50px;
-         }
-
-         .feature-card {
-             background: var(--surface-light);
-             border-radius: 10px;
-             padding: 25px;
-             box-shadow: var(--shadow);
-             transition: transform 0.3s;
-         }
-
-         .feature-card:hover {
-             transform: translateY(-5px);
-         }
-
-         .feature-card h3 {
-             color: var(--primary-color);
-             margin-bottom: 15px;
-             display: flex;
-             align-items: center;
-             gap: 10px;
-         }
-
-         .feature-card p {
-             color: var(--text-secondary);
-             margin-bottom: 15px;
-         }
-
-         .card-actions {
-             display: flex;
-             gap: 10px;
-             margin-top: 15px;
-         }
-
-         /* News & Announcements */
-         .news-section {
-             background: var(--surface-light);
-             border-radius: 10px;
-             padding: 30px;
-             margin-bottom: 30px;
-             box-shadow: var(--shadow);
-         }
-
-         .news-item {
-             padding: 20px 0;
-             border-bottom: 1px solid var(--border-color);
-         }
-
-         .news-item:last-child {
-             border-bottom: none;
-         }
-
-         .news-item h4 {
-             color: var(--primary-color);
-             margin-bottom: 10px;
-         }
-
-         .news-date {
-             font-size: 0.9rem;
-             color: var(--text-secondary);
-             margin-bottom: 10px;
-         }
-
-         /* Social Media Links */
-         .social-links {
-             display: flex;
-             gap: 15px;
-             margin-top: 20px;
-         }
-
-         .social-link {
-             display: flex;
-             align-items: center;
-             justify-content: center;
-             width: 40px;
-             height: 40px;
-             border-radius: 50%;
-             background-color: var(--primary-color);
-             color: white;
-             text-decoration: none;
-             transition: transform 0.3s;
-         }
-
-         .social-link:hover {
-             transform: scale(1.1);
-         }
-
-         /* Footer */
-         footer {
-             background-color: var(--surface-light);
-             color: var(--text-secondary);
-             padding: 50px 0 20px;
-             margin-top: 50px;
-             border-top: 1px solid var(--border-color);
-         }
-
-         .footer-content {
-             display: grid;
-             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-             gap: 30px;
-             margin-bottom: 30px;
-         }
-
-         .footer-column h3 {
-             color: var(--text-primary);
-             font-size: 1.2rem;
-             margin-bottom: 20px;
-             position: relative;
-             padding-bottom: 10px;
-         }
-
-         .footer-column h3::after {
-             content: '';
-             position: absolute;
-             bottom: 0;
-             left: 0;
-             width: 50px;
-             height: 2px;
-             background-color: var(--primary-color);
-         }
-
-         .footer-column ul {
-             list-style: none;
-         }
-
-         .footer-column ul li {
-             margin-bottom: 10px;
-         }
-
-         .footer-column ul li a {
-             color: var(--text-secondary);
-             text-decoration: none;
-             transition: color 0.3s;
-         }
-
-         .footer-column ul li a:hover {
-             color: var(--primary-color);
-         }
-
-         .copyright {
-             text-align: center;
-             padding-top: 20px;
-             border-top: 1px solid var(--border-color);
-             color: var(--text-secondary);
-             font-size: 0.9rem;
-         }
-
-         /* Responsive Design */
-         @media (max-width: 768px) {
-             .nav-links {
-                 display: none;
-             }
-
-             .hero h2 {
-                 font-size: 2rem;
-             }
-
-             .top-bar {
-                 flex-direction: column;
-                 gap: 5px;
-             }
-         }
-     </style>
- </head>
- <body>
-     <!-- Header -->
-     <header>
-         <div class="top-bar">
-             <div class="container">
-                 <div class="contact-info">
-                     <span id="phone">+976 11323739</span>
-                     <span id="email">friendshipschool11@gmail.com</span>
-                     <span id="address">Ulaanbaatar, Mongolia</span>
-                 </div>
-             </div>
-         </div>
-         <div class="container">
-             <nav>
-                 <div class="logo">
-                     <!-- Update the src attribute for the logo image -->
-                     <img src="nairamdal.png" alt="Nairamdal School Logo"> <!-- Example path -->
-                     <h1 id="schoolName">Nairamdal School of Ulaanbaatar</h1>
-                 </div>
-                 <div class="nav-links">
-                     <a href="#" class="active" id="navHome">Home</a>
-                     <a href="#" id="navAbout">About</a>
-                     <a href="#" id="navCurriculum">Curriculum</a>
-                     <a href="#" id="navNews">News</a>
-                     <a href="#" id="navGallery">Gallery</a>
-                     <a href="#" id="navContact">Contact</a>
-                 </div>
-                 <div class="controls">
-                     <select class="lang-selector" id="langSelector">
-                         <option value="en">English</option>
-                         <option value="mn">Монгол</option>
-                         <option value="zh">中文</option>
-                     </select>
-                     <button class="theme-toggle" id="themeToggle">🌙</button>
-                 </div>
-             </nav>
-         </div>
-     </header>
-
-     <!-- Hero Slider -->
-     <section class="hero">
-         <div class="slider-container">
-             <!-- These divs represent the slides. Their backgrounds are set via CSS above -->
-             <div class="slide active">
-                 <div class="slide-content">
-                     <h2 id="heroTitle">Nairamdal School</h2>
-                     <p id="heroDesc">Since 1964, providing quality education in Ulaanbaatar.</p>
-                     <div style="margin-top: 20px;">
-                         <a href="#" class="btn" id="enrollBtn">Enroll Now</a>
-                         <a href="#" class="btn btn-secondary" id="learnBtn">Learn More</a>
-                     </div>
-                 </div>
-             </div>
-             <div class="slide">
-                 <div class="slide-content">
-                     <h2 id="qualityTitle">Quality Education</h2>
-                     <p id="qualityDesc">Comprehensive curriculum with focus on discipline, critical thinking, and adaptability</p>
-                     <a href="#" class="btn" id="programsBtn">Our Programs</a>
-                 </div>
-             </div>
-             <div class="slide">
-                 <div class="slide-content">
-                     <h2 id="communityTitle">Community Focused</h2>
-                     <p id="communityDesc">Building strong relationships between students, parents, and educators.</p>
-                     <a href="#" class="btn" id="involveBtn">Get Involved</a>
-                 </div>
-             </div>
-         </div>
-     </section>
-
-     <!-- Rest of your content remains unchanged... -->
-
-     <main class="main-content container">
-         <!-- Features Section -->
-         <h2 class="section-title" id="featuresTitle">Our Features</h2>
-         <div class="features-grid">
-             <div class="feature-card">
-                 <h3 id="curriculumCardTitle">Curriculum</h3>
-                 <p id="curriculumCardDesc">Comprehensive academic programs designed to challenge and inspire students</p>
-                 <div class="card-actions">
-                     <a href="#" class="btn" id="viewCurriculumBtn">View Curriculum</a>
-                 </div>
-             </div>
-
-             <div class="feature-card">
-                 <h3 id="staffCardTitle">Staff Directory</h3>
-                 <p id="staffCardDesc">Meet our dedicated administrators</p>
-                 <div class="card-actions">
-                     <a href="#" class="btn" id="viewDirectoryBtn">View Directory</a>
-                 </div>
-             </div>
-
-             <div class="feature-card">
-                 <h3 id="eventsCardTitle">Events & Calendar</h3>
-                 <p id="eventsCardDesc">Upcoming events, holidays, and important dates</p>
-                 <div class="card-actions">
-                     <a href="#" class="btn" id="viewCalendarBtn">View Calendar</a>
-                 </div>
-             </div>
-
-             <div class="feature-card">
-                 <h3 id="galleryCardTitle">Photo Gallery</h3>
-                 <p id="galleryCardDesc">Memories and moments from school activities and events</p>
-                 <div class="card-actions">
-                     <a href="#" class="btn" id="viewGalleryBtn">View Gallery</a>
-                 </div>
-             </div>
-
-             <div class="feature-card">
-                 <h3 id="awardsCardTitle">🎓 Awards & Achievements</h3>
-                 <p id="awardsCardDesc">Recognitions and accomplishments of our students and staff</p>
-                 <div class="card-actions">
-                     <a href="#" class="btn" id="viewAwardsBtn">View Gallery</a>
-                 </div>
-             </div>
-
-             <div class="feature-card">
-                 <h3 id="paymentsCardTitle">💰 Online Payments</h3>
-                 <p id="paymentsCardDesc">Secure platform for tuition and fee payments</p>
-                 <div class="card-actions">
-                     <a href="#" class="btn" id="payNowBtn">Pay Now</a>
-                 </div>
-             </div>
-         </div>
-
-         <!-- News & Announcements -->
-         <h2 class="section-title" id="newsTitle">News & Announcements</h2>
-         <div class="news-section">
-             <div class="news-item">
-                 <h4 id="news1Title">Annual Science Fair Results</h4>
-                 <div class="news-date">March 15, 2026</div>
-                 <p id="news1Desc">Congratulations to our students who participated in the annual science fair. Our students won first place in the city competition!</p>
-             </div>
-             <div class="news-item">
-                 <h4 id="news2Title">Parent-Teacher Conferences</h4>
-                 <div class="news-date">March 10, 2026</div>
-                 <p id="news2Desc">Schedule your conferences for April 15-17 through the parent portal. Important updates about student progress will be shared.</p>
-             </div>
-             <div class="news-item">
-                 <h4 id="news3Title">Spring Sports Season Begins</h4>
-                 <div class="news-date">March 8, 2026</div>
-                 <p id="news3Desc">Registration for spring sports teams begins March 20th. Tryouts will be held March 25-27.</p>
-             </div>
-         </div>
-
-         <!-- Social Media Links -->
-         <h2 class="section-title" id="connectTitle">Connect With Us</h2>
-         <div class="social-links">
-             <a href="https://www.facebook.com/Nairamdalschool" class="social-link" target="_blank">
-                 <i class="fab fa-facebook-f"></i>
-             </a>
-             <a href="https://www.instagram.com/nairamdal_school" class="social-link" target="_blank">
-                 <i class="fab fa-instagram"></i>
-             </a>
-             <a href="#" class="social-link">
-                 <i class="fab fa-youtube"></i>
-             </a>
-         </div>
-     </main>
-
-     <!-- Footer -->
-     <footer>
-         <div class="container">
-             <div class="footer-content">
-                 <div class="footer-column">
-                     <h3 id="quickLinksTitle">Quick Links</h3>
-                     <ul>
-                         <li><a href="#" id="studentPortalLink">Student Portal</a></li>
-                         <li><a href="#" id="staffDirLink">Staff Directory</a></li>
-                         <li><a href="#" id="academicCalLink">Academic Calendar</a></li>
-                         <li><a href="#" id="policiesLink">School Policies</a></li>
-                     </ul>
-                 </div>
-                 <div class="footer-column">
-                     <h3 id="adminTitle">Administration</h3>
-                     <ul>
-                         <li><a href="#" id="boardLink">Board of Directors</a></li>
-                         <li><a href="#" id="volunteerLink">Volunteer Sign-up</a></li>
-                         <li><a href="#" id="fundraisingLink">Fundraising</a></li>
-                         <li><a href="#" id="jobsLink">Job Postings</a></li>
-                         <li><a href="#" id="contactUsLink">Contact Us</a></li>
-                     </ul>
-                 </div>
-             </div>
-             <div class="copyright">
-                 <p id="copyrightText">&copy; 2026 Nairamdal School of Ulaanbaatar. All Rights Reserved.</p>
-             </div>
-         </div>
-     </footer>
-
-     <script>
-         // ... Your existing JavaScript code remains unchanged ...
-         // Theme toggle functionality
-         const themeToggle = document.getElementById('themeToggle');
-         const body = document.body;
-
-         // Check for saved theme preference
-         if (localStorage.getItem('theme') === 'dark') {
-             body.classList.add('dark-mode');
-             themeToggle.textContent = '☀️';
-         }
-
-         themeToggle.addEventListener('click', () => {
-             body.classList.toggle('dark-mode');
-
-             if (body.classList.contains('dark-mode')) {
-                 themeToggle.textContent = '☀️';
-                 localStorage.setItem('theme', 'dark');
-             } else {
-                 themeToggle.textContent = '🌙';
-                 localStorage.setItem('theme', 'light');
-             }
-         });
-
-         // Language selector functionality
-         const langSelector = document.getElementById('langSelector');
-
-         // Translation dictionary
-         const translations = {
-             en: {
-                 phone: "+976 11323739",
-                 email: "friendshipschool11@gmail.com",
-                 address: "Ulaanbaatar, Mongolia",
-                 schoolName: "Nairamdal School of Ulaanbaatar",
-                 navHome: "Home",
-                 navAbout: "About",
-                 navCurriculum: "Curriculum",
-                 navNews: "News",
-                 navGallery: "Gallery",
-                 navContact: "Contact",
-                 heroTitle: "Nairamdal School",
-                 heroDesc: "Since 1964, providing quality education in Ulaanbaatar.",
-                 enrollBtn: "Enroll Now",
-                 learnBtn: "Learn More",
-                 qualityTitle: "Quality Education",
-                 qualityDesc: "Comprehensive curriculum with focus on discipline, critical thinking, and adaptability",
-                 programsBtn: "Our Programs",
-                 communityTitle: "Community Focused",
-                 communityDesc: "Building strong relationships between students, parents, and educators.",
-                 involveBtn: "Get Involved",
-                 featuresTitle: "Our Features",
-                 curriculumCardTitle: "Curriculum",
-                 curriculumCardDesc: "Comprehensive academic programs designed to challenge and inspire students",
-                 viewCurriculumBtn: "View Curriculum",
-                 staffCardTitle: "Staff Directory",
-                 staffCardDesc: "Meet our dedicated team of educators and administrators",
-                 viewDirectoryBtn: "View Directory",
-                 eventsCardTitle: "Events & Calendar",
-                 eventsCardDesc: "Upcoming events, holidays, and important dates",
-                 viewCalendarBtn: "View Calendar",
-                 galleryCardTitle: "Photo Gallery",
-                 galleryCardDesc: "Memories and moments from school activities and events",
-                 viewGalleryBtn: "View Gallery",
-                 awardsCardTitle: "🎓 Awards & Achievements",
-                 awardsCardDesc: "Recognitions and accomplishments of our students and staff",
-                 viewAwardsBtn: "View Gallery",
-                 paymentsCardTitle: "💰 Online Payments",
-                 paymentsCardDesc: "Secure platform for tuition and fee payments",
-                 payNowBtn: "Pay Now",
-                 newsTitle: "News & Announcements",
-                 news1Title: "Annual Science Fair Results",
-                 news1Desc: "Congratulations to our students who participated in the annual science fair. Our students won first place in the city competition!",
-                 news2Title: "Parent-Teacher Conferences",
-                 news2Desc: "Schedule your conferences for April 15-17 through the parent portal. Important updates about student progress will be shared.",
-                 news3Title: "Spring Sports Season Begins",
-                 news3Desc: "Registration for spring sports teams begins March 20th. Tryouts will be held March 25-27.",
-                 connectTitle: "Connect With Us",
-                 quickLinksTitle: "Quick Links",
-                 studentPortalLink: "Student Portal",
-                 staffDirLink: "Staff Directory",
-                 academicCalLink: "Academic Calendar",
-                 policiesLink: "School Policies",
-                 adminTitle: "Administration",
-                 boardLink: "Board of Directors",
-                 volunteerLink: "Volunteer Sign-up",
-                 fundraisingLink: "Fundraising",
-                 jobsLink: "Job Postings",
-                 contactUsLink: "Contact Us",
-                 copyrightText: "&copy; 2026 Nairamdal School of Ulaanbaatar. All Rights Reserved."
-             },
-             mn: {
-                 phone: "+976 11323739",
-                 email: "friendshipschool11@gmail.com",
-                 address: "Улаанбаатар, Монгол улс",
-                 schoolName: "Найрамдал Сургууль",
-                 navHome: "Нүүр",
-                 navAbout: "Бидний тухай",
-                 navCurriculum: "Сургалтын хөтөлбөр",
-                 navNews: "Мэдээ",
-                 navGallery: "Зураг",
-                 navContact: "Холбоо барих",
-                 heroTitle: "Найрамдал Сургууль",
-                 heroDesc: "1964 оноос хойш Улаанбаатарт чанартай боловсролыг хангаж байна.",
-                 enrollBtn: "Бүртгүүлэх",
-                 learnBtn: "Дэлгэрэнгүй",
-                 qualityTitle: "Чанартай Боловсрол",
-                 qualityDesc: "Дисциплин, шинжлэх сэтгэлгээ, тохируулах чадварыг бэлтгэх зорилготой сургалтын хөтөлбөр",
-                 programsBtn: "Манай Хөтөлбөрүүд",
-                 communityTitle: "Бүлгэмд Төвлөрсөн",
-                 communityDesc: "Оюутан, эцэг эх, багш нарын хоорондын бахархалтай харилцааг бий болгох.",
-                 involveBtn: "Оролцох",
-                 featuresTitle: "Манай Онцлогууд",
-                 curriculumCardTitle: "Сургалтын Хөтөлбөр",
-                 curriculumCardDesc: "Оюутнуудыг сориулж, санаа зовохоор сургалтын хөтөлбөрүүд",
-                 viewCurriculumBtn: "Хөтөлбөр Үзэх",
-                 staffCardTitle: "Ажилчдын Жагсаалт",
-                 staffCardDesc: "Бидний сургагч багш, удирдах ажилчидтай танилцаарай",
-                 viewDirectoryBtn: "Жагсаалт Үзэх",
-                 eventsCardTitle: "Үйл явдал & Цагалбар",
-                 eventsCardDesc: "Удахгүй болох үйл явдал, амралтын өдрүүд болон чухал өдрүүд",
-                 viewCalendarBtn: "Цагалбар Үзэх",
-                 galleryCardTitle: "Зурагны Цомог",
-                 galleryCardDesc: "Сургуулийн үйл ажиллагааны санамж, агшинууд",
-                 viewGalleryBtn: "Цомог Үзэх",
-                 awardsCardTitle: "🎓 Шагнал & Амжилтууд",
-                 awardsCardDesc: "Оюутан, багш нарын хүртсэн шагнал, ялалтууд",
-                 viewAwardsBtn: "Цомог Үзэх",
-                 paymentsCardTitle: "💰 Онлайн Төлбөр",
-                 paymentsCardDesc: "Сургалтын төлбөр болон бусад төлбөрийг аюулгүй төлөх платформ",
-                 payNowBtn: "Төлөх",
-                 newsTitle: "Мэдээ & Мэдэгдэл",
-                 news1Title: "Жил ийн Шинжлэх Ухааны Үзэсгэлэнгийн Үр дүн",
-                 news1Desc: "Жил ийн шинжлэх ухааны үзэсгэлэнд оролцсон манай оюутнуудад баяр хүргэе. Манай сурагчид хотын тэмцээнд эхний байрыг эзэллээ!",
-                 news2Title: "Эцэг эх, багшийн уулзалт",
-                 news2Desc: "Эцэг эхийн порталын тусламжтайгаар 4-р сарын 15-17-ны хооронд уулзалтаа захиалаарай. Оюутны ахиц, дэмжлэгийн талаар мэдээлэл хуваалцах болно.",
-                 news3Title: "Хавар Үеийн Спортын Улирал Эхэллээ",
-                 news3Desc: "Хавар үеийн спортын багийн бүртгэл 3-р сарын 20-ноос эхлэх бөгөөд туршилт 3-р сарын 25-27-ны хооронд болно.",
-                 connectTitle: "Бидэнтэй Холбогдох",
-                 quickLinksTitle: "Түргэн Холбоосууд",
-                 studentPortalLink: "Оюутны Портал",
-                 staffDirLink: "Ажилчдын Жагсаалт",
-                 academicCalLink: "Сургалтын Цагалбар",
-                 policiesLink: "Сургуулийн Журам",
-                 adminTitle: "Удирдлага",
-                 boardLink: "Захирлын Баг",
-                 volunteerLink: "Дэмжигч Бүртгүүлэх",
-                 fundraisingLink: "Санхүүжилт",
-                 jobsLink: "Ажлын Байр",
-                 contactUsLink: "Холбоо Барих",
-                 copyrightText: "&copy; 2026 Найрамдал Сургууль. Бүх Эрх Хуулиар Хамгаалагдсан."
-             },
-             zh: {
-                 phone: "+976 11323739",
-                 email: "friendshipschool11@gmail.com",
-                 address: "乌兰巴托，蒙古国",
-                 schoolName: "奈仁达勒学校",
-                 navHome: "首页",
-                 navAbout: "关于我们",
-                 navCurriculum: "课程",
-                 navNews: "新闻",
-                 navGallery: "相册",
-                 navContact: "联系我们",
-                 heroTitle: "奈仁达勒学校",
-                 heroDesc: "自1964年以来，在乌兰巴托提供优质的教育。",
-                 enrollBtn: "立即报名",
-                 learnBtn: "了解更多",
-                 qualityTitle: "优质教育",
-                 qualityDesc: "全面的课程，注重纪律、批判性思维和适应能力",
-                 programsBtn: "我们的项目",
-                 communityTitle: "以社区为中心",
-                 communityDesc: "建立学生、家长和教师之间的牢固关系。",
-                 involveBtn: "参与其中",
-                 featuresTitle: "我们的特色",
-                 curriculumCardTitle: "课程",
-                 curriculumCardDesc: "旨在挑战和启发学生的综合学术课程",
-                 viewCurriculumBtn: "查看课程",
-                 staffCardTitle: "员工目录",
-                 staffCardDesc: "认识我们敬业的教育工作者和管理人员",
-                 viewDirectoryBtn: "查看目录",
-                 eventsCardTitle: "活动与日历",
-                 eventsCardDesc: "即将举行的活动、假期和重要日期",
-                 viewCalendarBtn: "查看日历",
-                 galleryCardTitle: "照片集",
-                 galleryCardDesc: "学校活动和事件的回忆和瞬间",
-                 viewGalleryBtn: "查看相册",
-                 awardsCardTitle: "🎓 奖项与成就",
-                 awardsCardDesc: "我们学生和员工的认可和成就",
-                 viewAwardsBtn: "查看相册",
-                 paymentsCardTitle: "💰 在线支付",
-                 paymentsCardDesc: "用于学费和费用的安全平台",
-                 payNowBtn: "立即支付",
-                 newsTitle: "新闻与公告",
-                 news1Title: "年度科学博览会结果",
-                 news1Desc: "祝贺参加年度科学博览会的学生。我们的学生在城市比赛中获得第一名！",
-                 news2Title: "家长会",
-                 news2Desc: "通过家长门户预约4月15日至17日的会议。将分享有关学生进度的重要更新。",
-                 news3Title: "春季体育赛季开始",
-                 news3Desc: "春季运动队注册将于3月20日开始。试训将在3月25日至27日举行。",
-                 connectTitle: "与我们联系",
-                 quickLinksTitle: "快速链接",
-                 studentPortalLink: "学生门户",
-                 staffDirLink: "员工目录",
-                 academicCalLink: "学术日历",
-                 policiesLink: "学校政策",
-                 adminTitle: "管理",
-                 boardLink: "董事会",
-                 volunteerLink: "志愿者注册",
-                 fundraisingLink: "筹款",
-                 jobsLink: "职位招聘",
-                 contactUsLink: "联系我们",
-                 copyrightText: "&copy; 2026 奈仁达勒学校。版权所有。"
-             }
-         };
-
-         // Function to apply translations
-         function applyTranslations(lang) {
-             const elements = {
-                 phone: document.getElementById('phone'),
-                 email: document.getElementById('email'),
-                 address: document.getElementById('address'),
-                 schoolName: document.getElementById('schoolName'),
-                 navHome: document.getElementById('navHome'),
-                 navAbout: document.getElementById('navAbout'),
-                 navCurriculum: document.getElementById('navCurriculum'),
-                 navNews: document.getElementById('navNews'),
-                 navGallery: document.getElementById('navGallery'),
-                 navContact: document.getElementById('navContact'),
-                 heroTitle: document.getElementById('heroTitle'),
-                 heroDesc: document.getElementById('heroDesc'),
-                 enrollBtn: document.getElementById('enrollBtn'),
-                 learnBtn: document.getElementById('learnBtn'),
-                 qualityTitle: document.getElementById('qualityTitle: document.getElementById('qualityDesc'),
-                 programsBtn: document.getElementById('programsBtn'),
-                 communityTitle: document.getElementById('communityTitle'),
-                 communityDesc: document.getElementById('communityDesc'),
-                 involveBtn: document.getElementById('involveBtn'),
-                 featuresTitle: document.getElementById('featuresTitle'),
-                 curriculumCardTitle: document.getElementById('curriculumCardTitle'),
-                 curriculumCardDesc: document.getElementById('curriculumCardDesc'),
-                 viewCurriculumBtn: document.getElementById('viewCurriculumBtn'),
-                 staffCardTitle: document.getElementById('staffCardTitle'),
-                 staffCardDesc: document.getElementById('staffCardDesc'),
-                 viewDirectoryBtn: document.getElementById('viewDirectoryBtn'),
-                 eventsCardTitle: document.getElementById('eventsCardTitle'),
-                 eventsCardDesc: document.getElementById('eventsCardDesc'),
-                 viewCalendarBtn: document.getElementById('viewCalendarBtn'),
-                 galleryCardTitle: document.getElementById('galleryCardTitle'),
-                 galleryCardDesc: document.getElementById('galleryCardDesc'),
-                 viewGalleryBtn: document.getElementById('viewGalleryBtn'),
-                 awardsCardTitle: document.getElementById('awardsCardTitle'),
-                 awardsCardDesc: document.getElementById('awardsCardDesc'),
-                 viewAwardsBtn: document.getElementById('viewAwardsBtn'),
-                 paymentsCardTitle: document.getElementById('paymentsCardTitle'),
-                 paymentsCardDesc: document.getElementById('paymentsCardDesc'),
-                 payNowBtn: document.getElementById('payNowBtn'),
-                 newsTitle: document.getElementById('newsTitle'),
-                 news1Title: document.getElementById('news1Title'),
-                 news1Desc: document.getElementById('news1Desc'),
-                 news2Title: document.getElementById('news2Title'),
-                 news2Desc: document.getElementById('news2Desc'),
-                 news3Title: document.getElementById('news3Title'),
-                 news3Desc: document.getElementById('news3Desc'),
-                 connectTitle: document.getElementById('connectTitle'),
-                 quickLinksTitle: document.getElementById('quickLinksTitle'),
-                 studentPortalLink: document.getElementById('studentPortalLink'),
-                 staffDirLink: document.getElementById('staffDirLink'),
-                 academicCalLink: document.getElementById('academicCalLink'),
-                 policiesLink: document.getElementById('policiesLink'),
-                 adminTitle: document.getElementById('adminTitle'),
-                 boardLink: document.getElementById('boardLink'),
-                 volunteerLink: document.getElementById('volunteerLink'),
-                 fundraisingLink: document.getElementById('fundraisingLink'),
-                 jobsLink: document.getElementById('jobsLink'),
-                 contactUsLink: document.getElementById('contactUsLink'),
-                 copyrightText: document.getElementById('copyrightText')
-             };
-
-             const translation = translations[lang];
-             for (const [key, element] of Object.entries(elements)) {
-                 if (element) {
-                     if (key === 'copyrightText') {
-                         element.innerHTML = translation[key];
-                     } else {
-                         element.textContent = translation[key];
-                     }
-                 }
-             }
-         }
-
-         langSelector.addEventListener('change', function() {
-             const selectedLang = this.value;
-             applyTranslations(selectedLang);
-             localStorage.setItem('language', selectedLang);
-         });
-
-         // Load saved language preference
-         const savedLang = localStorage.getItem('language') || 'en';
-         langSelector.value = savedLang;
-         applyTranslations(savedLang);
-
-         // Simple slider functionality
-         let slideIndex = 0;
-         const slides = document.querySelectorAll('.slide');
-
-         function showSlides() {
-             // Hide all slides
-             slides.forEach(slide => slide.classList.remove('active'));
-
-             // Show current slide
-             slideIndex++;
-             if (slideIndex > slides.length) {slideIndex = 1}
-             slides[slideIndex-1].classList.add('active');
-
-             // Change slide every 5 seconds
-             setTimeout(showSlides, 5000);
-         }
-
-         // Initialize slider
-         showSlides();
-
-         // Tab navigation functionality
-         const navLinks = document.querySelectorAll('.nav-links a');
-
-         navLinks.forEach(link => {
-             link.addEventListener('click', function(e) {
-                 e.preventDefault();
-
-                 // Remove active class from all links
-                 navLinks.forEach(l => l.classList.remove('active'));
-
-                 // Add active class to clicked link
-                 this.classList.add('active');
-             });
-         });
-     </script>
- </body>
- </html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Nairamdal School</title>
+    <!-- Google Fonts Roboto Condensed -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- NAVBAR -->
+<header class="navbar">
+    <div class="logo">
+        <img src="logonairamdal.png" alt="logo">
+        <span class="lang-mn">Монгол-Хятадын Найрамдал сургууль</span>
+        <span class="lang-en">Nairamdal School</span>
+        <span class="lang-zh">旅蒙华侨蒙中友谊学校</span>
+    </div>
+    <nav>
+        <a href="#home" class="lang-mn">Нүүр</a>
+        <a href="#home" class="lang-en">Home</a>
+        <a href="#home" class="lang-zh">首页</a>
+
+        <a href="#admissions" class="lang-mn">Элсэлтийн мэдээлэл</a>
+        <a href="#admissions" class="lang-en">Admissions</a>
+        <a href="#admissions" class="lang-zh">入学信息</a>
+
+        <a href="#about" class="lang-mn">Бидний тухай</a>
+        <a href="#about" class="lang-en">About</a>
+        <a href="#about" class="lang-zh">关于我们</a>
+
+        <a href="#classes" class="lang-mn">Ангиуд</a>
+        <a href="#classes" class="lang-en">Classes</a>
+        <a href="#classes" class="lang-zh">课程</a>
+
+        <a href="#teachers" class="lang-mn">Багш нар</a>
+        <a href="#teachers" class="lang-en">Teachers</a>
+        <a href="#teachers" class="lang-zh">教师</a>
+
+        <a href="#contact" class="lang-mn">Холбоо барих</a>
+        <a href="#contact" class="lang-en">Contact</a>
+        <a href="#contact" class="lang-zh">联系我们</a>
+    </nav>
+    <div class="lang">
+        <a href="#" onclick="showLang('en'); return false;">EN</a>
+        <a href="#" onclick="showLang('mn'); return false;">MN</a>
+        <a href="#" onclick="showLang('zh'); return false;">中文</a>
+    </div>
+</header>
+
+<!-- HERO SECTION -->
+<section class="hero" id="home">
+    <h1 class="lang-mn">Монгол Хятадын Найрамдал Сургууль</h1>
+    <p class="lang-mn">Манай сургуульд тавтай морилно уу</p>
+
+    <h1 class="lang-en">Nairamdal School</h1>
+    <p class="lang-en">Welcome to our friendly primary school</p>
+
+    <h1 class="lang-zh">蒙中友谊学校</h1>
+    <p class="lang-zh">欢迎来到我们的友好小学</p>
+</section>
+
+<!-- CONTENT SECTIONS -->
+<section class="content" id="admissions">
+    <h2 class="lang-mn">Элсэлтийн мэдээлэл</h2>
+    <h2 class="lang-en">Admissions</h2>
+    <h2 class="lang-zh">入学信息</h2>
+
+    <p class="lang-mn">2026 оны элсэлтийн мэдээлэл энд байрлана.</p>
+    <p class="lang-en">Admissions information for 2026 will be here.</p>
+    <p class="lang-zh">2026 年的入学信息将显示在此处。</p>
+</section>
+
+<section class="content" id="about">
+    <h2 class="lang-mn">Бидний тухай</h2>
+    <h2 class="lang-en">About Us</h2>
+    <h2 class="lang-zh">关于我们</h2>
+
+    <p class="lang-mn">Монгол Хятадын Найрамдал Сургууль нь хүүхдүүдэд аюулгүй, урам зоригтой, хоёр хэлний боловсрол олгодог орчинг бүрдүүлдэг.</p>
+    <p class="lang-en">Nairamdal School provides a safe, inspiring, and bilingual learning environment for primary students to explore, create, and grow.</p>
+    <p class="lang-zh">蒙中友谊学校为小学生提供安全、有启发性的双语学习环境，让孩子们探索、创造并成长。</p>
+</section>
+
+<section class="content" id="classes">
+    <h2 class="lang-mn">Ангиуд</h2>
+    <h2 class="lang-en">Our Classes</h2>
+    <h2 class="lang-zh">课程</h2>
+</section>
+
+<section class="content" id="teachers">
+    <h2 class="lang-mn">Багш нар</h2>
+    <h2 class="lang-en">Our Teachers</h2>
+    <h2 class="lang-zh">我们的教师</h2>
+</section>
+
+<section class="content" id="contact">
+    <h2 class="lang-mn">Холбоо барих</h2>
+    <h2 class="lang-en">Contact Us</h2>
+    <h2 class="lang-zh">联系我们</h2>
+</section>
+
+<footer>
+    <p>© 2026 Nairamdal School</p>
+</footer>
+
+<script>
+function showLang(lang) {
+    ['en','mn','zh'].forEach(l => {
+        document.querySelectorAll('.lang-'+l).forEach(el => {
+            // If it's a heading or paragraph, display block; otherwise inline (like navbar links)
+            if (el.tagName === 'H1' || el.tagName === 'H2' || el.tagName === 'P') {
+                el.style.display = (l === lang) ? 'block' : 'none';
+            } else {
+                el.style.display = (l === lang) ? 'inline' : 'none';
+            }
+        });
+    });
+}
+showLang('mn'); // default Mongolian
+</script>
+
+</body>
+</html>
