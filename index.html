@@ -1,30 +1,1197 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="mn">
 <head>
-    <meta charset="UTF-8">
-    <title>Nairamdal School</title>
-    <!-- Google Fonts Roboto Condensed -->
-    <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Найрамдал Сургууль · Nairamdal School · 友谊学校</title>
+
+<style>
+/* =====================================================================
+   FONTS
+===================================================================== */
+@font-face {
+  font-family: 'Optima';
+  src: url('OPTIMA.TTF') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Optima';
+  src: url('OPTIMA_B.TTF') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Optima';
+  src: url('Optima_Italic.ttf') format('truetype');
+  font-weight: 400;
+  font-style: italic;
+}
+@font-face {
+  font-family: 'Optima';
+  src: url('Optima Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'SimFang';
+  src: url('simfang.ttf') format('truetype');
+}
+
+/* =====================================================================
+   VARIABLES & RESET
+===================================================================== */
+:root {
+  --cream:    #FAF7F2;
+  --warm:     #F0EAE0;
+  --gold:     #C9973A;
+  --gold-lt:  #E8C47A;
+  --red:      #B33A3A;
+  --ink:      #1A1209;
+  --ink-soft: #3D2E1A;
+  --mid:      #7A6A52;
+  --border:   rgba(201,151,58,0.25);
+  --shadow:   0 4px 32px rgba(26,18,9,0.12);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Optima', 'Palatino Linotype', Palatino, serif;
+  background: var(--cream);
+  color: var(--ink);
+  line-height: 1.7;
+  overflow-x: hidden;
+}
+
+/* Chinese language uses SimFang */
+.lang-zh, .lang-zh * {
+  font-family: 'SimFang', 'STFangsong', 'FangSong', 'SimSun', serif !important;
+}
+
+/* =====================================================================
+   LANGUAGE SWITCHING
+===================================================================== */
+.lang-mn, .lang-en, .lang-zh { display: none; }
+
+/* =====================================================================
+   DECORATIVE BORDER STRIP
+===================================================================== */
+.border-strip {
+  height: 5px;
+  background: linear-gradient(90deg, var(--red) 0%, var(--gold) 50%, var(--red) 100%);
+}
+
+/* =====================================================================
+   NAVBAR
+===================================================================== */
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background: rgba(250,247,242,0.97);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  box-shadow: 0 2px 20px rgba(26,18,9,0.07);
+}
+
+.navbar-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 32px;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  height: 72px;
+}
+
+/* Logo block */
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-shrink: 0;
+  text-decoration: none;
+}
+
+.logo img {
+  height: 46px;
+  width: auto;
+  object-fit: contain;
+}
+
+.logo-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+}
+
+.logo-text .school-name {
+  font-weight: 700;
+  font-size: 15px;
+  color: var(--ink);
+  letter-spacing: 0.02em;
+}
+.logo-text .school-name-zh {
+  font-family: 'SimFang', 'FangSong', serif;
+  font-size: 13px;
+  color: var(--mid);
+}
+.logo-text .school-name-en {
+  font-size: 11px;
+  color: var(--mid);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* Nav links */
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex: 1;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: var(--ink-soft);
+  font-size: 14px;
+  font-weight: 500;
+  padding: 6px 12px;
+  border-radius: 4px;
+  transition: all 0.2s;
+  white-space: nowrap;
+  letter-spacing: 0.01em;
+}
+
+.nav-links a:hover {
+  color: var(--gold);
+  background: rgba(201,151,58,0.08);
+}
+
+/* Language switcher */
+.lang-switcher {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  flex-shrink: 0;
+}
+
+.lang-switcher button {
+  background: none;
+  border: 1px solid transparent;
+  color: var(--mid);
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 500;
+  padding: 4px 10px;
+  border-radius: 3px;
+  cursor: pointer;
+  letter-spacing: 0.05em;
+  transition: all 0.2s;
+}
+
+.lang-switcher button:hover,
+.lang-switcher button.active {
+  color: var(--gold);
+  border-color: var(--border);
+  background: rgba(201,151,58,0.06);
+}
+
+/* Hamburger */
+.hamburger {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 6px;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.hamburger span {
+  display: block;
+  width: 24px;
+  height: 2px;
+  background: var(--ink);
+  border-radius: 2px;
+  transition: all 0.3s;
+}
+
+.hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.hamburger.open span:nth-child(2) { opacity: 0; }
+.hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+/* Mobile nav drawer */
+.nav-drawer {
+  display: none;
+  flex-direction: column;
+  background: var(--cream);
+  border-top: 1px solid var(--border);
+  padding: 16px 24px 24px;
+  gap: 4px;
+}
+
+.nav-drawer a {
+  text-decoration: none;
+  color: var(--ink-soft);
+  font-size: 15px;
+  padding: 10px 8px;
+  border-bottom: 1px solid var(--warm);
+  transition: color 0.2s;
+}
+
+.nav-drawer a:hover { color: var(--gold); }
+
+.nav-drawer .drawer-lang {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.nav-drawer .drawer-lang button {
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--mid);
+  font-family: inherit;
+  font-size: 13px;
+  padding: 6px 14px;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.nav-drawer .drawer-lang button.active,
+.nav-drawer .drawer-lang button:hover {
+  color: var(--gold);
+  border-color: var(--gold);
+}
+
+/* =====================================================================
+   HERO
+===================================================================== */
+.hero {
+  position: relative;
+  height: 92vh;
+  min-height: 560px;
+  max-height: 900px;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+
+/* Placeholder background - use your own photo named: nairamdal background.jpg */
+/* Fallback: free Unsplash photo of Ulaanbaatar */
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  background-image:
+    url('nairamdal background.jpg'),
+    url('https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=1600&q=80');
+  background-size: cover;
+  background-position: center 40%;
+  background-repeat: no-repeat;
+  transform: scale(1.04);
+  animation: heroZoom 18s ease-in-out infinite alternate;
+}
+
+@keyframes heroZoom {
+  from { transform: scale(1.04); }
+  to   { transform: scale(1.00); }
+}
+
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(26,18,9,0.72) 0%,
+    rgba(26,18,9,0.45) 55%,
+    rgba(201,151,58,0.15) 100%
+  );
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 48px;
+  width: 100%;
+}
+
+/* Gold ornament line */
+.hero-ornament {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.hero-ornament::before,
+.hero-ornament::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--gold);
+  opacity: 0.5;
+}
+
+.hero-ornament span {
+  color: var(--gold);
+  font-size: 20px;
+  line-height: 1;
+}
+
+.hero h1 {
+  font-size: clamp(32px, 5.5vw, 64px);
+  font-weight: 700;
+  color: #fff;
+  line-height: 1.15;
+  margin-bottom: 16px;
+  letter-spacing: -0.01em;
+}
+
+.hero-sub {
+  font-size: clamp(16px, 2vw, 22px);
+  color: rgba(255,255,255,0.75);
+  font-style: italic;
+  margin-bottom: 40px;
+  max-width: 560px;
+}
+
+.hero-ctas {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.btn-primary {
+  display: inline-block;
+  background: var(--gold);
+  color: var(--ink);
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 14px 32px;
+  border-radius: 3px;
+  transition: all 0.25s;
+  border: 2px solid var(--gold);
+}
+
+.btn-primary:hover {
+  background: var(--gold-lt);
+  border-color: var(--gold-lt);
+}
+
+.btn-outline {
+  display: inline-block;
+  background: transparent;
+  color: #fff;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 14px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 14px 32px;
+  border-radius: 3px;
+  border: 2px solid rgba(255,255,255,0.45);
+  transition: all 0.25s;
+}
+
+.btn-outline:hover {
+  border-color: rgba(255,255,255,0.9);
+  background: rgba(255,255,255,0.08);
+}
+
+/* Scroll hint */
+.hero-scroll {
+  position: absolute;
+  bottom: 32px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  opacity: 0.5;
+  animation: bounce 2.5s ease-in-out infinite;
+}
+
+.hero-scroll span {
+  color: #fff;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.hero-scroll svg {
+  width: 20px;
+  height: 20px;
+  fill: none;
+  stroke: #fff;
+  stroke-width: 2;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50% { transform: translateX(-50%) translateY(8px); }
+}
+
+/* =====================================================================
+   SECTION BASE
+===================================================================== */
+section { padding: 96px 32px; }
+
+.section-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.section-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 12px;
+}
+
+.section-title {
+  font-size: clamp(26px, 3.5vw, 42px);
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1.2;
+  margin-bottom: 16px;
+}
+
+.section-divider {
+  width: 56px;
+  height: 3px;
+  background: var(--gold);
+  margin-bottom: 32px;
+  border-radius: 2px;
+}
+
+.section-body {
+  font-size: 17px;
+  color: var(--ink-soft);
+  max-width: 680px;
+  line-height: 1.8;
+}
+
+/* =====================================================================
+   STATS BAR
+===================================================================== */
+.stats-bar {
+  background: var(--ink);
+  padding: 0;
+}
+
+.stats-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.stat-item {
+  padding: 40px 24px;
+  text-align: center;
+  border-right: 1px solid rgba(255,255,255,0.07);
+  position: relative;
+}
+
+.stat-item:last-child { border-right: none; }
+
+.stat-num {
+  display: block;
+  font-size: 42px;
+  font-weight: 700;
+  color: var(--gold);
+  line-height: 1;
+  margin-bottom: 8px;
+}
+
+.stat-label {
+  font-size: 13px;
+  color: rgba(255,255,255,0.55);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+/* =====================================================================
+   ADMISSIONS SECTION
+===================================================================== */
+#admissions {
+  background: var(--cream);
+}
+
+.admissions-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 64px;
+  align-items: start;
+  margin-top: 48px;
+}
+
+.admission-card {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 36px;
+  position: relative;
+  overflow: hidden;
+  transition: box-shadow 0.3s;
+}
+
+.admission-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--gold), var(--red));
+}
+
+.admission-card:hover {
+  box-shadow: var(--shadow);
+}
+
+.card-icon {
+  width: 48px;
+  height: 48px;
+  background: rgba(201,151,58,0.1);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+  font-size: 22px;
+}
+
+.card-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 12px;
+}
+
+.card-body {
+  font-size: 15px;
+  color: var(--mid);
+  line-height: 1.75;
+}
+
+.admission-steps {
+  counter-reset: steps;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.step {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  counter-increment: steps;
+}
+
+.step-num {
+  flex-shrink: 0;
+  width: 36px;
+  height: 36px;
+  background: var(--gold);
+  color: var(--ink);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 15px;
+}
+
+.step-text { font-size: 15px; color: var(--ink-soft); line-height: 1.6; padding-top: 6px; }
+
+/* =====================================================================
+   ABOUT SECTION
+===================================================================== */
+#about {
+  background: var(--warm);
+}
+
+.about-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 72px;
+  align-items: center;
+  margin-top: 48px;
+}
+
+.about-image-wrap {
+  position: relative;
+}
+
+.about-image {
+  width: 100%;
+  aspect-ratio: 4/3;
+  object-fit: cover;
+  border-radius: 8px;
+  display: block;
+  /* Placeholder image - replace with actual school photo */
+}
+
+/* Image placeholder if file not found */
+.about-image-placeholder {
+  width: 100%;
+  aspect-ratio: 4/3;
+  border-radius: 8px;
+  background:
+    linear-gradient(135deg, rgba(201,151,58,0.15) 0%, rgba(179,58,58,0.1) 100%),
+    url('nairamdal background.jpg') center/cover no-repeat,
+    url('https://images.unsplash.com/photo-1564981797816-1043664bf78d?w=900&q=80') center/cover no-repeat;
+  border: 1px solid var(--border);
+}
+
+.about-badge {
+  position: absolute;
+  bottom: -20px;
+  right: -20px;
+  background: var(--gold);
+  color: var(--ink);
+  border-radius: 50%;
+  width: 108px;
+  height: 108px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  text-align: center;
+  box-shadow: 0 8px 24px rgba(201,151,58,0.4);
+  line-height: 1.2;
+  font-size: 13px;
+}
+
+.about-badge strong {
+  font-size: 28px;
+  display: block;
+}
+
+.about-text .section-body { margin-bottom: 28px; }
+
+.pillars {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.pillar {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+}
+
+.pillar-icon {
+  font-size: 22px;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.pillar-content h4 {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 3px;
+}
+
+.pillar-content p {
+  font-size: 14px;
+  color: var(--mid);
+}
+
+/* =====================================================================
+   CLASSES SECTION
+===================================================================== */
+#classes { background: var(--cream); }
+
+.classes-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  margin-top: 48px;
+}
+
+.class-card {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.class-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow);
+}
+
+.class-thumb {
+  height: 180px;
+  position: relative;
+  overflow: hidden;
+}
+
+.class-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s;
+}
+
+.class-card:hover .class-thumb img { transform: scale(1.05); }
+
+.class-grade-badge {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  background: var(--gold);
+  color: var(--ink);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border-radius: 3px;
+}
+
+.class-body { padding: 24px; }
+
+.class-name {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 8px;
+}
+
+.class-desc {
+  font-size: 14px;
+  color: var(--mid);
+  line-height: 1.65;
+}
+
+.class-meta {
+  display: flex;
+  gap: 12px;
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid var(--warm);
+  font-size: 12px;
+  color: var(--mid);
+}
+
+.class-meta span {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+/* =====================================================================
+   TEACHERS SECTION
+===================================================================== */
+#teachers { background: var(--warm); }
+
+.teachers-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+  margin-top: 48px;
+}
+
+.teacher-card {
+  text-align: center;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 32px 20px 24px;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.teacher-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow);
+}
+
+.teacher-avatar {
+  width: 88px;
+  height: 88px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid var(--border);
+  margin: 0 auto 16px;
+  display: block;
+  background: var(--warm);
+  /* Placeholder: replace with teacher photo */
+}
+
+.teacher-avatar-placeholder {
+  width: 88px;
+  height: 88px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--warm), rgba(201,151,58,0.2));
+  border: 3px solid var(--border);
+  margin: 0 auto 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+  color: var(--gold);
+}
+
+.teacher-name {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 4px;
+}
+
+.teacher-role {
+  font-size: 13px;
+  color: var(--gold);
+  font-style: italic;
+  margin-bottom: 8px;
+}
+
+.teacher-bio {
+  font-size: 13px;
+  color: var(--mid);
+  line-height: 1.6;
+}
+
+/* =====================================================================
+   CONTACT SECTION
+===================================================================== */
+#contact { background: var(--cream); }
+
+.contact-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 64px;
+  margin-top: 48px;
+  align-items: start;
+}
+
+.contact-info {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.contact-item {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+}
+
+.contact-icon {
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  background: rgba(201,151,58,0.1);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+}
+
+.contact-item h4 {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--gold);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 4px;
+}
+
+.contact-item p {
+  font-size: 15px;
+  color: var(--ink-soft);
+  line-height: 1.6;
+}
+
+.contact-form {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 36px;
+}
+
+.form-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 24px;
+}
+
+.form-group {
+  margin-bottom: 18px;
+}
+
+.form-group label {
+  display: block;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--mid);
+  margin-bottom: 6px;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  font-family: inherit;
+  font-size: 15px;
+  color: var(--ink);
+  background: var(--cream);
+  transition: border-color 0.2s;
+  outline: none;
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+  border-color: var(--gold);
+  box-shadow: 0 0 0 3px rgba(201,151,58,0.12);
+}
+
+.form-group textarea { resize: vertical; min-height: 100px; }
+
+.form-submit {
+  width: 100%;
+  padding: 14px;
+  background: var(--gold);
+  color: var(--ink);
+  border: none;
+  border-radius: 4px;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.form-submit:hover { background: var(--gold-lt); }
+
+/* =====================================================================
+   MAP PLACEHOLDER
+===================================================================== */
+.map-placeholder {
+  margin-top: 80px;
+  background: var(--warm);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 12px;
+  color: var(--mid);
+}
+
+.map-placeholder .map-icon { font-size: 36px; }
+.map-placeholder p { font-size: 14px; }
+
+/* =====================================================================
+   FOOTER
+===================================================================== */
+footer {
+  background: var(--ink);
+  color: rgba(255,255,255,0.45);
+  padding: 0;
+}
+
+.footer-top {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 56px 32px 40px;
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 48px;
+}
+
+.footer-brand {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.footer-logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.footer-logo img { height: 40px; filter: brightness(0) invert(1) opacity(0.8); }
+
+.footer-brand-name {
+  font-weight: 700;
+  color: rgba(255,255,255,0.8);
+  font-size: 14px;
+}
+
+.footer-brand-zh {
+  font-family: 'SimFang', serif;
+  color: rgba(255,255,255,0.5);
+  font-size: 12px;
+}
+
+.footer-tagline {
+  font-size: 14px;
+  line-height: 1.7;
+  max-width: 260px;
+}
+
+.footer-col h5 {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 16px;
+}
+
+.footer-col a {
+  display: block;
+  text-decoration: none;
+  color: rgba(255,255,255,0.45);
+  font-size: 14px;
+  padding: 4px 0;
+  transition: color 0.2s;
+}
+
+.footer-col a:hover { color: var(--gold-lt); }
+
+.footer-bottom {
+  border-top: 1px solid rgba(255,255,255,0.07);
+  padding: 20px 32px;
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 13px;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.footer-bottom-flags { letter-spacing: 0.05em; }
+
+/* =====================================================================
+   NOTICE BANNER (for admissions)
+===================================================================== */
+.notice-banner {
+  background: linear-gradient(90deg, var(--gold) 0%, #E8C47A 100%);
+  color: var(--ink);
+  text-align: center;
+  padding: 14px 20px;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  position: relative;
+}
+
+/* =====================================================================
+   RESPONSIVE
+===================================================================== */
+@media (max-width: 960px) {
+  .stats-inner { grid-template-columns: repeat(2, 1fr); }
+  .admissions-grid { grid-template-columns: 1fr; gap: 32px; }
+  .about-layout { grid-template-columns: 1fr; gap: 40px; }
+  .about-badge { right: 12px; bottom: -16px; }
+  .classes-grid { grid-template-columns: repeat(2, 1fr); }
+  .teachers-grid { grid-template-columns: repeat(2, 1fr); }
+  .contact-layout { grid-template-columns: 1fr; gap: 40px; }
+  .footer-top { grid-template-columns: 1fr 1fr; gap: 32px; }
+}
+
+@media (max-width: 640px) {
+  section { padding: 64px 20px; }
+  .navbar-inner { padding: 0 20px; }
+  .hero-content { padding: 0 24px; }
+  .nav-links { display: none; }
+  .lang-switcher { display: none; }
+  .hamburger { display: flex; }
+  .stats-inner { grid-template-columns: repeat(2, 1fr); }
+  .stat-item { padding: 28px 16px; }
+  .stat-num { font-size: 32px; }
+  .classes-grid { grid-template-columns: 1fr; }
+  .teachers-grid { grid-template-columns: repeat(2, 1fr); }
+  .footer-top { grid-template-columns: 1fr; gap: 28px; }
+  .footer-bottom { flex-direction: column; text-align: center; }
+  .hero { height: 100svh; }
+  .hero-ctas { flex-direction: column; }
+  .btn-primary, .btn-outline { text-align: center; }
+  .contact-form { padding: 24px; }
+  .admission-card { padding: 24px; }
+}
+</style>
 </head>
 <body>
 
-<!-- NAVBAR -->
-<header class="navbar">
-    <div class="logo">
-        <img src="logonairamdal.png" alt="logo">
-        <span class="lang-mn">Монгол-Хятадын Найрамдал сургууль</span>
-        <span class="lang-en">Nairamdal School</span>
-        <span class="lang-zh">旅蒙华侨蒙中友谊学校</span>
-    </div>
-    <nav>
+<!-- NOTICE BANNER -->
+<div class="notice-banner">
+  <span class="lang-mn">📢 2026–2027 оны элсэлт эхэллээ — дэлгэрэнгүй мэдээллийг доорх хэсгээс авна уу.</span>
+  <span class="lang-en">📢 2026–2027 Admissions are now open — see details below.</span>
+  <span class="lang-zh">📢 2026–2027 学年招生已开始 — 详情见下方。</span>
+</div>
+
+<!-- TOP BORDER STRIP -->
+<div class="border-strip"></div>
+
+<!-- ================================================================
+     NAVBAR
+================================================================ -->
+<header>
+  <nav class="navbar">
+    <div class="navbar-inner">
+      <!-- Logo -->
+      <a href="#home" class="logo">
+        <img src="nairamdal logo transparent.png" alt="Найрамдал лого" onerror="this.style.display='none'">
+        <div class="logo-text">
+          <span class="school-name lang-mn">Найрамдал Сургууль</span>
+          <span class="school-name lang-en">Nairamdal School</span>
+          <span class="school-name-zh lang-zh">蒙中友谊学校</span>
+          <span class="school-name-en lang-mn lang-en" style="display:block">Ulaanbaatar, Mongolia</span>
+        </div>
+      </a>
+
+      <!-- Desktop nav links -->
+      <div class="nav-links">
         <a href="#home" class="lang-mn">Нүүр</a>
         <a href="#home" class="lang-en">Home</a>
         <a href="#home" class="lang-zh">首页</a>
 
-        <a href="#admissions" class="lang-mn">Элсэлтийн мэдээлэл</a>
+        <a href="#admissions" class="lang-mn">Элсэлт</a>
         <a href="#admissions" class="lang-en">Admissions</a>
-        <a href="#admissions" class="lang-zh">入学信息</a>
+        <a href="#admissions" class="lang-zh">招生</a>
 
         <a href="#about" class="lang-mn">Бидний тухай</a>
         <a href="#about" class="lang-en">About</a>
@@ -41,83 +1208,767 @@
         <a href="#contact" class="lang-mn">Холбоо барих</a>
         <a href="#contact" class="lang-en">Contact</a>
         <a href="#contact" class="lang-zh">联系我们</a>
-    </nav>
-    <div class="lang">
-        <a href="#" onclick="showLang('en'); return false;">EN</a>
-        <a href="#" onclick="showLang('mn'); return false;">MN</a>
-        <a href="#" onclick="showLang('zh'); return false;">中文</a>
+      </div>
+
+      <!-- Language switcher desktop -->
+      <div class="lang-switcher">
+        <button onclick="showLang('mn')" id="btn-mn">МН</button>
+        <button onclick="showLang('en')" id="btn-en">EN</button>
+        <button onclick="showLang('zh')" id="btn-zh">中文</button>
+      </div>
+
+      <!-- Hamburger -->
+      <button class="hamburger" id="hamburger" aria-label="Menu" onclick="toggleDrawer()">
+        <span></span><span></span><span></span>
+      </button>
     </div>
+
+    <!-- Mobile drawer -->
+    <div class="nav-drawer" id="nav-drawer">
+      <a href="#home" onclick="closeDrawer()" class="lang-mn">Нүүр</a>
+      <a href="#home" onclick="closeDrawer()" class="lang-en">Home</a>
+      <a href="#home" onclick="closeDrawer()" class="lang-zh">首页</a>
+
+      <a href="#admissions" onclick="closeDrawer()" class="lang-mn">Элсэлт</a>
+      <a href="#admissions" onclick="closeDrawer()" class="lang-en">Admissions</a>
+      <a href="#admissions" onclick="closeDrawer()" class="lang-zh">招生</a>
+
+      <a href="#about" onclick="closeDrawer()" class="lang-mn">Бидний тухай</a>
+      <a href="#about" onclick="closeDrawer()" class="lang-en">About</a>
+      <a href="#about" onclick="closeDrawer()" class="lang-zh">关于我们</a>
+
+      <a href="#classes" onclick="closeDrawer()" class="lang-mn">Ангиуд</a>
+      <a href="#classes" onclick="closeDrawer()" class="lang-en">Classes</a>
+      <a href="#classes" onclick="closeDrawer()" class="lang-zh">课程</a>
+
+      <a href="#teachers" onclick="closeDrawer()" class="lang-mn">Багш нар</a>
+      <a href="#teachers" onclick="closeDrawer()" class="lang-en">Teachers</a>
+      <a href="#teachers" onclick="closeDrawer()" class="lang-zh">教师</a>
+
+      <a href="#contact" onclick="closeDrawer()" class="lang-mn">Холбоо барих</a>
+      <a href="#contact" onclick="closeDrawer()" class="lang-en">Contact</a>
+      <a href="#contact" onclick="closeDrawer()" class="lang-zh">联系我们</a>
+
+      <div class="drawer-lang">
+        <button onclick="showLang('mn'); closeDrawer()">МН</button>
+        <button onclick="showLang('en'); closeDrawer()">EN</button>
+        <button onclick="showLang('zh'); closeDrawer()">中文</button>
+      </div>
+    </div>
+  </nav>
 </header>
 
-<!-- HERO SECTION -->
+<!-- ================================================================
+     HERO
+================================================================ -->
 <section class="hero" id="home">
-    <h1 class="lang-mn">Монгол Хятадын Найрамдал Сургууль</h1>
-    <p class="lang-mn">Манай сургуульд тавтай морилно уу</p>
+  <div class="hero-bg"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <div class="hero-ornament">
+      <span>✦</span>
+    </div>
 
+    <h1 class="lang-mn">Монгол–Хятадын<br>"Найрамдал" Сургууль</h1>
     <h1 class="lang-en">Nairamdal School</h1>
-    <p class="lang-en">Welcome to our friendly primary school</p>
+    <h1 class="lang-zh">旅蒙华侨蒙中友谊学校</h1>
 
-    <h1 class="lang-zh">蒙中友谊学校</h1>
-    <p class="lang-zh">欢迎来到我们的友好小学</p>
+    <p class="hero-sub lang-mn">Хүүхэд бүрийг хайрлаж, хоёр хэлний боловсролоор хөгжүүлдэг.</p>
+    <p class="hero-sub lang-en">A bilingual primary school where every child is cherished and inspired to grow.</p>
+    <p class="hero-sub lang-zh">用爱心与双语教育，陪伴每一个孩子成长。</p>
+
+    <div class="hero-ctas">
+      <a href="#admissions" class="btn-primary lang-mn">Элсэлтийн мэдээлэл →</a>
+      <a href="#admissions" class="btn-primary lang-en">Admissions Info →</a>
+      <a href="#admissions" class="btn-primary lang-zh">招生信息 →</a>
+
+      <a href="#about" class="btn-outline lang-mn">Бидний тухай</a>
+      <a href="#about" class="btn-outline lang-en">Learn About Us</a>
+      <a href="#about" class="btn-outline lang-zh">了解我们</a>
+    </div>
+  </div>
+
+  <div class="hero-scroll">
+    <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+  </div>
 </section>
 
-<!-- CONTENT SECTIONS -->
-<section class="content" id="admissions">
-    <h2 class="lang-mn">Элсэлтийн мэдээлэл</h2>
-    <h2 class="lang-en">Admissions</h2>
-    <h2 class="lang-zh">入学信息</h2>
+<!-- ================================================================
+     STATS BAR
+================================================================ -->
+<div class="stats-bar">
+  <div class="stats-inner">
+    <div class="stat-item">
+      <span class="stat-num">20+</span>
+      <span class="stat-label lang-mn">Жилийн туршлага</span>
+      <span class="stat-label lang-en">Years of Experience</span>
+      <span class="stat-label lang-zh">办学年份</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-num">300+</span>
+      <span class="stat-label lang-mn">Сурагчид</span>
+      <span class="stat-label lang-en">Students</span>
+      <span class="stat-label lang-zh">在校学生</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-num">30+</span>
+      <span class="stat-label lang-mn">Мэргэжлийн багш</span>
+      <span class="stat-label lang-en">Qualified Teachers</span>
+      <span class="stat-label lang-zh">专业教师</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-num">2</span>
+      <span class="stat-label lang-mn">Заах хэл</span>
+      <span class="stat-label lang-en">Languages Taught</span>
+      <span class="stat-label lang-zh">教学语言</span>
+    </div>
+  </div>
+</div>
 
-    <p class="lang-mn">2026 оны элсэлтийн мэдээлэл энд байрлана.</p>
-    <p class="lang-en">Admissions information for 2026 will be here.</p>
-    <p class="lang-zh">2026 年的入学信息将显示在此处。</p>
+<!-- ================================================================
+     ADMISSIONS
+================================================================ -->
+<section id="admissions">
+  <div class="section-inner">
+    <p class="section-label lang-mn">Элсэлт · 2026</p>
+    <p class="section-label lang-en">Admissions · 2026</p>
+    <p class="section-label lang-zh">招生信息 · 2026</p>
+
+    <h2 class="section-title lang-mn">Хэрхэн элсэх вэ?</h2>
+    <h2 class="section-title lang-en">How to Apply</h2>
+    <h2 class="section-title lang-zh">如何报名入学？</h2>
+    <div class="section-divider"></div>
+
+    <p class="section-body lang-mn">Манай сургууль 1-р ангиас 5-р анги хүртэлх бүх хүүхдийг хүлээн авдаг. Элсэлт нь жил бүрийн 2-р сарын 1-ний өдрөөс 4-р сарын 30 хүртэл явагдана.</p>
+    <p class="section-body lang-en">Nairamdal School welcomes students from Grade 1 through Grade 5. The 2026–2027 admissions window runs from February 1 to April 30.</p>
+    <p class="section-body lang-zh">友谊学校招收1至5年级学生。2026–2027学年招生时间为2月1日至4月30日。</p>
+
+    <div class="admissions-grid">
+      <!-- Requirements card -->
+      <div class="admission-card">
+        <div class="card-icon">📋</div>
+        <p class="card-title lang-mn">Шаардлагатай баримт бичиг</p>
+        <p class="card-title lang-en">Required Documents</p>
+        <p class="card-title lang-zh">所需材料</p>
+        <div class="card-body">
+          <p class="lang-mn">Дараах баримт бичгийг бэлтгэнэ үү:<br><br>
+          • Төрийн бүртгэлийн гэрчилгээ (хуулбар)<br>
+          • Эцэг эхийн иргэний үнэмлэх<br>
+          • 3×4 хэмжээний гэрэл зураг (2 ширхэг)<br>
+          • Өмнөх сургуулийн тодорхойлолт (боломжтой бол)<br>
+          • Эрүүл мэндийн үзлэгийн дэвтэр</p>
+          <p class="lang-en">Please prepare the following:<br><br>
+          • Birth certificate (copy)<br>
+          • Parent or guardian ID<br>
+          • 2 passport-size photos (3×4 cm)<br>
+          • Previous school records (if applicable)<br>
+          • Health / vaccination booklet</p>
+          <p class="lang-zh">请准备以下材料：<br><br>
+          • 出生证明（复印件）<br>
+          • 家长或监护人证件<br>
+          • 2张证件照（3×4厘米）<br>
+          • 以前学校的成绩证明（如有）<br>
+          • 健康/疫苗接种本</p>
+        </div>
+      </div>
+
+      <!-- Steps card -->
+      <div class="admission-card">
+        <div class="card-icon">🗺️</div>
+        <p class="card-title lang-mn">Элсэлтийн үе шатууд</p>
+        <p class="card-title lang-en">Admissions Steps</p>
+        <p class="card-title lang-zh">报名流程</p>
+        <ol class="admission-steps">
+          <li class="step">
+            <span class="step-num">1</span>
+            <span class="step-text lang-mn">Холбоо барих хэсгээр эсвэл утсаар бидэнтэй холбогдоно уу.</span>
+            <span class="step-text lang-en">Contact us by phone or through the form below.</span>
+            <span class="step-text lang-zh">通过电话或下方表单联系我们。</span>
+          </li>
+          <li class="step">
+            <span class="step-num">2</span>
+            <span class="step-text lang-mn">Сургуульд зочилж, ангиудтай танилцана уу.</span>
+            <span class="step-text lang-en">Visit the school for a tour and meet our teachers.</span>
+            <span class="step-text lang-zh">来校参观，与教师见面。</span>
+          </li>
+          <li class="step">
+            <span class="step-num">3</span>
+            <span class="step-text lang-mn">Баримт бичгүүдээ авчран бүртгүүлнэ үү.</span>
+            <span class="step-text lang-en">Submit your documents and complete enrolment.</span>
+            <span class="step-text lang-zh">提交材料，完成注册登记。</span>
+          </li>
+          <li class="step">
+            <span class="step-num">4</span>
+            <span class="step-text lang-mn">Тавтай морилно уу! Хичээлийн жилд бэлэн болно уу.</span>
+            <span class="step-text lang-en">Welcome to the Nairamdal family! Get ready for the school year.</span>
+            <span class="step-text lang-zh">欢迎加入友谊学校大家庭！准备迎接新学年。</span>
+          </li>
+        </ol>
+      </div>
+    </div>
+  </div>
 </section>
 
-<section class="content" id="about">
-    <h2 class="lang-mn">Бидний тухай</h2>
-    <h2 class="lang-en">About Us</h2>
-    <h2 class="lang-zh">关于我们</h2>
+<!-- ================================================================
+     ABOUT
+================================================================ -->
+<section id="about">
+  <div class="section-inner">
+    <p class="section-label lang-mn">Бидний тухай</p>
+    <p class="section-label lang-en">About Us</p>
+    <p class="section-label lang-zh">关于我们</p>
 
-    <p class="lang-mn">Монгол Хятадын Найрамдал Сургууль нь хүүхдүүдэд аюулгүй, урам зоригтой, хоёр хэлний боловсрол олгодог орчинг бүрдүүлдэг.</p>
-    <p class="lang-en">Nairamdal School provides a safe, inspiring, and bilingual learning environment for primary students to explore, create, and grow.</p>
-    <p class="lang-zh">蒙中友谊学校为小学生提供安全、有启发性的双语学习环境，让孩子们探索、创造并成长。</p>
+    <h2 class="section-title lang-mn">Хос хэлний боловсрол,<br>нэг дэлхийн иргэн</h2>
+    <h2 class="section-title lang-en">Bilingual Education,<br>Global Citizens</h2>
+    <h2 class="section-title lang-zh">双语教育，<br>培育世界公民</h2>
+    <div class="section-divider"></div>
+
+    <div class="about-layout">
+      <div class="about-image-wrap">
+        <!--
+          REPLACE THIS with your actual school photo.
+          Name it: school-photo.jpg and put it in the same folder.
+          The fallback shows a free Unsplash classroom photo.
+        -->
+        <div class="about-image-placeholder"
+             style="background-image: url('school-photo.jpg'), url('https://images.unsplash.com/photo-1580582932707-520aed937b7b?w=900&q=80');">
+        </div>
+        <div class="about-badge">
+          <strong>20+</strong>
+          <span class="lang-mn">жилийн<br>туршлага</span>
+          <span class="lang-en">years of<br>experience</span>
+          <span class="lang-zh">年办学<br>经验</span>
+        </div>
+      </div>
+
+      <div class="about-text">
+        <p class="section-body lang-mn">Монгол–Хятадын "Найрамдал" сургууль нь Улаанбаатар хотод хятад гаралтай сурагчдад монгол болон хятад хэлний хос боловсрол олгох зорилгоор үүсгэн байгуулагдсан. Бид хүүхэд бүрийн хувийн өсөлтийг дэмжиж, хоёр соёлын гүнзгий ойлголт, хайрт эх хэлнийхээ баялгийг хадгалж үлдэхэд туслана.</p>
+        <p class="section-body lang-en">Nairamdal School was founded in Ulaanbaatar to provide Chinese-heritage students with a rich bilingual education in Mongolian and Chinese. We nurture each child's unique potential while fostering deep cross-cultural understanding and pride in their roots.</p>
+        <p class="section-body lang-zh">友谊学校创办于乌兰巴托，专为旅蒙华侨子女提供蒙中双语教育。我们致力于培养每位孩子的个人潜能，弘扬两国文化，让孩子们在异乡依然根植于中华文化。</p>
+
+        <div class="pillars">
+          <div class="pillar">
+            <span class="pillar-icon">🌐</span>
+            <div class="pillar-content">
+              <h4 class="lang-mn">Хоёр хэлний боловсрол</h4>
+              <h4 class="lang-en">Bilingual Curriculum</h4>
+              <h4 class="lang-zh">双语课程</h4>
+              <p class="lang-mn">Монгол ба хятад хэл зэрэгцэн заагдана.</p>
+              <p class="lang-en">Instruction in both Mongolian and Chinese throughout all grades.</p>
+              <p class="lang-zh">全年级同步开展蒙汉双语教学。</p>
+            </div>
+          </div>
+          <div class="pillar">
+            <span class="pillar-icon">🤝</span>
+            <div class="pillar-content">
+              <h4 class="lang-mn">Эерэг орчин</h4>
+              <h4 class="lang-en">Safe & Welcoming Environment</h4>
+              <h4 class="lang-zh">安全友好的校园环境</h4>
+              <p class="lang-mn">Хүүхэд бүр хайрлагдаж, хамгаалагддаг орчин.</p>
+              <p class="lang-en">Every child feels safe, seen, and celebrated.</p>
+              <p class="lang-zh">让每位孩子感受到关爱与安全感。</p>
+            </div>
+          </div>
+          <div class="pillar">
+            <span class="pillar-icon">🎨</span>
+            <div class="pillar-content">
+              <h4 class="lang-mn">Бүтээлч сурах арга</h4>
+              <h4 class="lang-en">Creative Learning</h4>
+              <h4 class="lang-zh">创意教学</h4>
+              <p class="lang-mn">Урлаг, хөгжим, спортоор дамжуулан хөгжинө.</p>
+              <p class="lang-en">Art, music, sport, and hands-on projects alongside core academics.</p>
+              <p class="lang-zh">通过艺术、音乐、体育及实践活动，全面发展学生能力。</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </section>
 
-<section class="content" id="classes">
-    <h2 class="lang-mn">Ангиуд</h2>
-    <h2 class="lang-en">Our Classes</h2>
-    <h2 class="lang-zh">课程</h2>
+<!-- ================================================================
+     CLASSES
+================================================================ -->
+<section id="classes">
+  <div class="section-inner">
+    <p class="section-label lang-mn">Ангиуд</p>
+    <p class="section-label lang-en">Our Classes</p>
+    <p class="section-label lang-zh">课程班级</p>
+
+    <h2 class="section-title lang-mn">1–5-р анги</h2>
+    <h2 class="section-title lang-en">Grades 1 through 5</h2>
+    <h2 class="section-title lang-zh">一至五年级</h2>
+    <div class="section-divider"></div>
+
+    <div class="classes-grid">
+      <!-- Grade 1 -->
+      <div class="class-card">
+        <div class="class-thumb">
+          <img src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=600&q=75" alt="Grade 1 classroom" loading="lazy">
+          <span class="class-grade-badge lang-mn">1-р анги</span>
+          <span class="class-grade-badge lang-en">Grade 1</span>
+          <span class="class-grade-badge lang-zh">一年级</span>
+        </div>
+        <div class="class-body">
+          <p class="class-name lang-mn">Эхлэн суралцагч</p>
+          <p class="class-name lang-en">First Steps</p>
+          <p class="class-name lang-zh">启蒙班</p>
+          <p class="class-desc lang-mn">Унших, тоолох, зурах — суралцах хайрыг түлхүүрлэх жил.</p>
+          <p class="class-desc lang-en">Reading, counting, drawing — igniting a lifelong love of learning.</p>
+          <p class="class-desc lang-zh">阅读、计数、绘画——点燃终身学习的热情。</p>
+          <div class="class-meta">
+            <span>👶 <span class="lang-mn">6–7 нас</span><span class="lang-en">Age 6–7</span><span class="lang-zh">6–7岁</span></span>
+            <span>👥 <span class="lang-mn">20 сурагч</span><span class="lang-en">20 students</span><span class="lang-zh">20名学生</span></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Grade 2 -->
+      <div class="class-card">
+        <div class="class-thumb">
+          <img src="https://images.unsplash.com/photo-1588072432836-e10032774350?w=600&q=75" alt="Grade 2 classroom" loading="lazy">
+          <span class="class-grade-badge lang-mn">2-р анги</span>
+          <span class="class-grade-badge lang-en">Grade 2</span>
+          <span class="class-grade-badge lang-zh">二年级</span>
+        </div>
+        <div class="class-body">
+          <p class="class-name lang-mn">Бичлэг ба тоо</p>
+          <p class="class-name lang-en">Words & Numbers</p>
+          <p class="class-name lang-zh">文字与数字</p>
+          <p class="class-desc lang-mn">Хоёр хэлний бичгийн ур чадвар, үндсэн математик.</p>
+          <p class="class-desc lang-en">Building bilingual literacy and foundational mathematics skills.</p>
+          <p class="class-desc lang-zh">培养双语书写能力与数学基础。</p>
+          <div class="class-meta">
+            <span>👶 <span class="lang-mn">7–8 нас</span><span class="lang-en">Age 7–8</span><span class="lang-zh">7–8岁</span></span>
+            <span>👥 <span class="lang-mn">20 сурагч</span><span class="lang-en">20 students</span><span class="lang-zh">20名学生</span></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Grade 3 -->
+      <div class="class-card">
+        <div class="class-thumb">
+          <img src="https://images.unsplash.com/photo-1509062522246-3755977927d7?w=600&q=75" alt="Grade 3 classroom" loading="lazy">
+          <span class="class-grade-badge lang-mn">3-р анги</span>
+          <span class="class-grade-badge lang-en">Grade 3</span>
+          <span class="class-grade-badge lang-zh">三年级</span>
+        </div>
+        <div class="class-body">
+          <p class="class-name lang-mn">Орчлон ертөнц</p>
+          <p class="class-name lang-en">World Around Us</p>
+          <p class="class-name lang-zh">探索世界</p>
+          <p class="class-desc lang-mn">Шинжлэх ухаан, нийгмийн судлал, уран бүтээл.</p>
+          <p class="class-desc lang-en">Science, social studies, and creative arts come together.</p>
+          <p class="class-desc lang-zh">科学、社会学与创意艺术融合教学。</p>
+          <div class="class-meta">
+            <span>👦 <span class="lang-mn">8–9 нас</span><span class="lang-en">Age 8–9</span><span class="lang-zh">8–9岁</span></span>
+            <span>👥 <span class="lang-mn">22 сурагч</span><span class="lang-en">22 students</span><span class="lang-zh">22名学生</span></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Grade 4 -->
+      <div class="class-card">
+        <div class="class-thumb">
+          <img src="https://images.unsplash.com/photo-1606761568499-6d2451b23c66?w=600&q=75" alt="Grade 4 classroom" loading="lazy">
+          <span class="class-grade-badge lang-mn">4-р анги</span>
+          <span class="class-grade-badge lang-en">Grade 4</span>
+          <span class="class-grade-badge lang-zh">四年级</span>
+        </div>
+        <div class="class-body">
+          <p class="class-name lang-mn">Гүнзгий судалгаа</p>
+          <p class="class-name lang-en">Deeper Learning</p>
+          <p class="class-name lang-zh">深度学习</p>
+          <p class="class-desc lang-mn">Дэвшилтэт математик, хэл шинжлэл, байгаль орчин.</p>
+          <p class="class-desc lang-en">Advanced mathematics, language arts, and environmental science.</p>
+          <p class="class-desc lang-zh">进阶数学、语言艺术与环境科学教学。</p>
+          <div class="class-meta">
+            <span>👦 <span class="lang-mn">9–10 нас</span><span class="lang-en">Age 9–10</span><span class="lang-zh">9–10岁</span></span>
+            <span>👥 <span class="lang-mn">22 сурагч</span><span class="lang-en">22 students</span><span class="lang-zh">22名学生</span></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Grade 5 -->
+      <div class="class-card">
+        <div class="class-thumb">
+          <img src="https://images.unsplash.com/photo-1549057446-9f5c6ac91a04?w=600&q=75" alt="Grade 5 classroom" loading="lazy">
+          <span class="class-grade-badge lang-mn">5-р анги</span>
+          <span class="class-grade-badge lang-en">Grade 5</span>
+          <span class="class-grade-badge lang-zh">五年级</span>
+        </div>
+        <div class="class-body">
+          <p class="class-name lang-mn">Ирээдүйн зам</p>
+          <p class="class-name lang-en">Future Pathways</p>
+          <p class="class-name lang-zh">未来之路</p>
+          <p class="class-desc lang-mn">Дунд сургуульд бэлтгэх, манлайлал, хамтын ажиллагаа.</p>
+          <p class="class-desc lang-en">Preparation for middle school, leadership, and collaboration.</p>
+          <p class="class-desc lang-zh">衔接初中教育，培养领导力与团队合作精神。</span></p>
+          <div class="class-meta">
+            <span>🧒 <span class="lang-mn">10–11 нас</span><span class="lang-en">Age 10–11</span><span class="lang-zh">10–11岁</span></span>
+            <span>👥 <span class="lang-mn">22 сурагч</span><span class="lang-en">22 students</span><span class="lang-zh">22名学生</span></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Extra-curricular -->
+      <div class="class-card">
+        <div class="class-thumb">
+          <img src="https://images.unsplash.com/photo-1564981797816-1043664bf78d?w=600&q=75" alt="Extra-curricular" loading="lazy">
+          <span class="class-grade-badge lang-mn">Нэмэлт</span>
+          <span class="class-grade-badge lang-en">Extra-Curricular</span>
+          <span class="class-grade-badge lang-zh">课外活动</span>
+        </div>
+        <div class="class-body">
+          <p class="class-name lang-mn">Нэмэлт хичээлүүд</p>
+          <p class="class-name lang-en">Clubs & Activities</p>
+          <p class="class-name lang-zh">兴趣班与课外活动</p>
+          <p class="class-desc lang-mn">Урлаг, хөгжим, шатар, биеийн тамир — бүх ангийн сурагчдад.</p>
+          <p class="class-desc lang-en">Art, music, chess, and physical education open to all students.</p>
+          <p class="class-desc lang-zh">美术、音乐、围棋、体育——面向全体学生开放。</p>
+          <div class="class-meta">
+            <span>🎭 <span class="lang-mn">Бүх анги</span><span class="lang-en">All grades</span><span class="lang-zh">全年级</span></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </section>
 
-<section class="content" id="teachers">
-    <h2 class="lang-mn">Багш нар</h2>
-    <h2 class="lang-en">Our Teachers</h2>
-    <h2 class="lang-zh">我们的教师</h2>
+<!-- ================================================================
+     TEACHERS
+================================================================ -->
+<section id="teachers">
+  <div class="section-inner">
+    <p class="section-label lang-mn">Багш нар</p>
+    <p class="section-label lang-en">Our Teachers</p>
+    <p class="section-label lang-zh">我们的教师</p>
+
+    <h2 class="section-title lang-mn">Манай мэргэжлийн баг</h2>
+    <h2 class="section-title lang-en">Our Dedicated Team</h2>
+    <h2 class="section-title lang-zh">我们的专业教师团队</h2>
+    <div class="section-divider"></div>
+
+    <p class="section-body lang-mn">Манай багш нар хүүхэд бүрд хайр халамжаа өргөн, хоёр хэлний мэдлэгээ нэгтгэн ажилладаг мэргэжлийн боловсруулагчид юм.</p>
+    <p class="section-body lang-en">Our teachers bring warmth, expertise, and bilingual fluency to every classroom — dedicated to every student's individual journey.</p>
+    <p class="section-body lang-zh">我们的教师团队充满爱心，具备双语教学能力，致力于每一位学生的成长之路。</p>
+
+    <div class="teachers-grid" style="margin-top:48px;">
+      <!-- Teacher cards — replace with real names, photos, roles -->
+      <div class="teacher-card">
+        <div class="teacher-avatar-placeholder">👩‍🏫</div>
+        <p class="teacher-name lang-mn">Д. Нарантуяа</p>
+        <p class="teacher-name lang-en">D. Narantuya</p>
+        <p class="teacher-name lang-zh">D. 娜仁图雅</p>
+        <p class="teacher-role lang-mn">Захирал · Монгол хэлний багш</p>
+        <p class="teacher-role lang-en">Principal · Mongolian Language</p>
+        <p class="teacher-role lang-zh">校长 · 蒙语教师</p>
+        <p class="teacher-bio lang-mn">20 гаруй жилийн туршлагатай боловсролч.</p>
+        <p class="teacher-bio lang-en">Over 20 years in bilingual primary education.</p>
+        <p class="teacher-bio lang-zh">从事双语小学教育逾20年。</p>
+      </div>
+
+      <div class="teacher-card">
+        <div class="teacher-avatar-placeholder">👩‍🏫</div>
+        <p class="teacher-name lang-mn">Ли Хуэй</p>
+        <p class="teacher-name lang-en">Li Hui</p>
+        <p class="teacher-name lang-zh">李慧</p>
+        <p class="teacher-role lang-mn">Хятад хэлний ахлах багш</p>
+        <p class="teacher-role lang-en">Head of Chinese Language</p>
+        <p class="teacher-role lang-zh">汉语教研组长</p>
+        <p class="teacher-bio lang-mn">Бээжинд суралцаж, Монголд 12 жил заасан.</p>
+        <p class="teacher-bio lang-en">Beijing-trained, 12 years teaching in Mongolia.</p>
+        <p class="teacher-bio lang-zh">北京师范大学毕业，在蒙执教12年。</p>
+      </div>
+
+      <div class="teacher-card">
+        <div class="teacher-avatar-placeholder">👨‍🏫</div>
+        <p class="teacher-name lang-mn">Б. Ганзориг</p>
+        <p class="teacher-name lang-en">B. Ganzorigt</p>
+        <p class="teacher-name lang-zh">B. 干佐日格</p>
+        <p class="teacher-role lang-mn">Математикийн багш</p>
+        <p class="teacher-role lang-en">Mathematics Teacher</p>
+        <p class="teacher-role lang-zh">数学教师</p>
+        <p class="teacher-bio lang-mn">Тоонуудыг хөгжилтэйгөөр заадаг багш.</p>
+        <p class="teacher-bio lang-en">Makes numbers fun and accessible for all ages.</p>
+        <p class="teacher-bio lang-zh">让数学变得有趣，适合各年龄段学生。</p>
+      </div>
+
+      <div class="teacher-card">
+        <div class="teacher-avatar-placeholder">👩‍🎨</div>
+        <p class="teacher-name lang-mn">Чэн Ли</p>
+        <p class="teacher-name lang-en">Chen Li</p>
+        <p class="teacher-name lang-zh">陈丽</p>
+        <p class="teacher-role lang-mn">Урлаг ба хөгжмийн багш</p>
+        <p class="teacher-role lang-en">Arts & Music Teacher</p>
+        <p class="teacher-role lang-zh">美术与音乐教师</p>
+        <p class="teacher-bio lang-mn">Бүтээлч авьяасыг хөгжүүлэгч мэргэжилтэн.</p>
+        <p class="teacher-bio lang-en">Passionate about unlocking every child's creative voice.</p>
+        <p class="teacher-bio lang-zh">专注于发掘每位孩子的创造力与艺术天赋。</p>
+      </div>
+    </div>
+
+    <p style="margin-top:32px; font-size:14px; color:var(--mid); font-style:italic;" class="lang-mn">* Нэр, зураг, үүргийг танай мэдээллээр солино уу.</p>
+    <p style="margin-top:32px; font-size:14px; color:var(--mid); font-style:italic;" class="lang-en">* Replace names, photos, and roles with your actual staff details.</p>
+    <p style="margin-top:32px; font-size:14px; color:var(--mid); font-style:italic;" class="lang-zh">* 请将姓名、照片及职位替换为实际教师信息。</p>
+  </div>
 </section>
 
-<section class="content" id="contact">
-    <h2 class="lang-mn">Холбоо барих</h2>
-    <h2 class="lang-en">Contact Us</h2>
-    <h2 class="lang-zh">联系我们</h2>
+<!-- ================================================================
+     CONTACT
+================================================================ -->
+<section id="contact">
+  <div class="section-inner">
+    <p class="section-label lang-mn">Холбоо барих</p>
+    <p class="section-label lang-en">Contact Us</p>
+    <p class="section-label lang-zh">联系我们</p>
+
+    <h2 class="section-title lang-mn">Бидэнтэй холбогдох</h2>
+    <h2 class="section-title lang-en">Get in Touch</h2>
+    <h2 class="section-title lang-zh">与我们联系</h2>
+    <div class="section-divider"></div>
+
+    <div class="contact-layout">
+      <div class="contact-info">
+        <div class="contact-item">
+          <div class="contact-icon">📍</div>
+          <div>
+            <h4 class="lang-mn">Хаяг</h4>
+            <h4 class="lang-en">Address</h4>
+            <h4 class="lang-zh">地址</h4>
+            <p class="lang-mn">Улаанбаатар хот, Монгол улс<br><em style="color:var(--mid);font-size:13px;">(дэлгэрэнгүй хаягийг оруулна уу)</em></p>
+            <p class="lang-en">Ulaanbaatar, Mongolia<br><em style="color:var(--mid);font-size:13px;">(add your full street address here)</em></p>
+            <p class="lang-zh">蒙古国乌兰巴托市<br><em style="color:var(--mid);font-size:13px;">（请填写完整街道地址）</em></p>
+          </div>
+        </div>
+
+        <div class="contact-item">
+          <div class="contact-icon">📞</div>
+          <div>
+            <h4 class="lang-mn">Утас</h4>
+            <h4 class="lang-en">Phone</h4>
+            <h4 class="lang-zh">电话</h4>
+            <p>+976 __ __ __ __</p>
+          </div>
+        </div>
+
+        <div class="contact-item">
+          <div class="contact-icon">✉️</div>
+          <div>
+            <h4 class="lang-mn">Имэйл</h4>
+            <h4 class="lang-en">Email</h4>
+            <h4 class="lang-zh">邮箱</h4>
+            <p>info@nairamdal.mn</p>
+          </div>
+        </div>
+
+        <div class="contact-item">
+          <div class="contact-icon">🕐</div>
+          <div>
+            <h4 class="lang-mn">Ажлын цаг</h4>
+            <h4 class="lang-en">Office Hours</h4>
+            <h4 class="lang-zh">办公时间</h4>
+            <p class="lang-mn">Даваа–Баасан: 08:00–17:00<br>Бямба: 09:00–13:00</p>
+            <p class="lang-en">Mon–Fri: 08:00–17:00<br>Sat: 09:00–13:00</p>
+            <p class="lang-zh">周一至周五：08:00–17:00<br>周六：09:00–13:00</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Contact form -->
+      <div class="contact-form">
+        <p class="form-title lang-mn">Санал хүсэлт илгээх</p>
+        <p class="form-title lang-en">Send a Message</p>
+        <p class="form-title lang-zh">发送留言</p>
+
+        <div class="form-group">
+          <label class="lang-mn">Таны нэр</label>
+          <label class="lang-en">Your Name</label>
+          <label class="lang-zh">您的姓名</label>
+          <input type="text" placeholder="...">
+        </div>
+        <div class="form-group">
+          <label class="lang-mn">Имэйл / Утас</label>
+          <label class="lang-en">Email / Phone</label>
+          <label class="lang-zh">邮箱 / 电话</label>
+          <input type="text" placeholder="...">
+        </div>
+        <div class="form-group">
+          <label class="lang-mn">Сэдэв</label>
+          <label class="lang-en">Subject</label>
+          <label class="lang-zh">主题</label>
+          <select>
+            <option class="lang-mn">Элсэлтийн асуулт</option>
+            <option class="lang-en">Admissions enquiry</option>
+            <option class="lang-zh">招生咨询</option>
+            <option class="lang-mn">Ерөнхий асуулт</option>
+            <option class="lang-en">General question</option>
+            <option class="lang-zh">一般问题</option>
+            <option class="lang-mn">Бусад</option>
+            <option class="lang-en">Other</option>
+            <option class="lang-zh">其他</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="lang-mn">Мессеж</label>
+          <label class="lang-en">Message</label>
+          <label class="lang-zh">留言内容</label>
+          <textarea placeholder="..."></textarea>
+        </div>
+        <button type="button" class="form-submit lang-mn" onclick="handleFormSubmit()">Илгээх →</button>
+        <button type="button" class="form-submit lang-en" onclick="handleFormSubmit()">Send Message →</button>
+        <button type="button" class="form-submit lang-zh" onclick="handleFormSubmit()">发送留言 →</button>
+      </div>
+    </div>
+
+    <!-- Map placeholder -->
+    <div class="map-placeholder">
+      <span class="map-icon">🗺️</span>
+      <p class="lang-mn">Газрын зураг энд байрлана — Google Maps холбоосоо оруулна уу.</p>
+      <p class="lang-en">Map goes here — embed your Google Maps iframe.</p>
+      <p class="lang-zh">地图显示区域 — 请嵌入您的 Google 地图链接。</p>
+    </div>
+  </div>
 </section>
 
+<!-- ================================================================
+     FOOTER
+================================================================ -->
 <footer>
-    <p>© 2026 Nairamdal School</p>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <div class="footer-logo">
+        <img src="nairamdal logo transparent.png" alt="logo" onerror="this.style.display='none'">
+        <div>
+          <div class="footer-brand-name lang-mn">Найрамдал Сургууль</div>
+          <div class="footer-brand-name lang-en">Nairamdal School</div>
+          <div class="footer-brand-zh lang-zh">旅蒙华侨蒙中友谊学校</div>
+        </div>
+      </div>
+      <p class="footer-tagline lang-mn">Монгол–Хятадын хоёр хэлний боловсролын сургууль. Улаанбаатар, Монгол улс.</p>
+      <p class="footer-tagline lang-en">A bilingual Mongolian–Chinese primary school. Ulaanbaatar, Mongolia.</p>
+      <p class="footer-tagline lang-zh">蒙中双语小学，坐落于蒙古国乌兰巴托市。</p>
+    </div>
+
+    <div class="footer-col">
+      <h5 class="lang-mn">Холбоос</h5>
+      <h5 class="lang-en">Links</h5>
+      <h5 class="lang-zh">快速链接</h5>
+      <a href="#home" class="lang-mn">Нүүр</a>
+      <a href="#home" class="lang-en">Home</a>
+      <a href="#home" class="lang-zh">首页</a>
+      <a href="#admissions" class="lang-mn">Элсэлт</a>
+      <a href="#admissions" class="lang-en">Admissions</a>
+      <a href="#admissions" class="lang-zh">招生</a>
+      <a href="#about" class="lang-mn">Бидний тухай</a>
+      <a href="#about" class="lang-en">About</a>
+      <a href="#about" class="lang-zh">关于我们</a>
+    </div>
+
+    <div class="footer-col">
+      <h5 class="lang-mn">Сургалт</h5>
+      <h5 class="lang-en">Education</h5>
+      <h5 class="lang-zh">教育</h5>
+      <a href="#classes" class="lang-mn">Ангиуд</a>
+      <a href="#classes" class="lang-en">Classes</a>
+      <a href="#classes" class="lang-zh">课程</a>
+      <a href="#teachers" class="lang-mn">Багш нар</a>
+      <a href="#teachers" class="lang-en">Teachers</a>
+      <a href="#teachers" class="lang-zh">教师</a>
+    </div>
+
+    <div class="footer-col">
+      <h5 class="lang-mn">Холбоо</h5>
+      <h5 class="lang-en">Contact</h5>
+      <h5 class="lang-zh">联系</h5>
+      <a href="#contact" class="lang-mn">Холбоо барих</a>
+      <a href="#contact" class="lang-en">Get in Touch</a>
+      <a href="#contact" class="lang-zh">联系我们</a>
+      <a href="mailto:info@nairamdal.mn">info@nairamdal.mn</a>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <span>© 2026 Монгол–Хятадын "Найрамдал" Сургууль · Nairamdal School · 蒙中友谊学校</span>
+    <span class="footer-bottom-flags">🇲🇳 🇨🇳</span>
+  </div>
 </footer>
 
+<!-- ================================================================
+     JAVASCRIPT
+================================================================ -->
 <script>
+// ---- LANGUAGE SWITCHING ----
+let currentLang = 'mn';
+
 function showLang(lang) {
-    ['en','mn','zh'].forEach(l => {
-        document.querySelectorAll('.lang-'+l).forEach(el => {
-            // If it's a heading or paragraph, display block; otherwise inline (like navbar links)
-            if (el.tagName === 'H1' || el.tagName === 'H2' || el.tagName === 'P') {
-                el.style.display = (l === lang) ? 'block' : 'none';
-            } else {
-                el.style.display = (l === lang) ? 'inline' : 'none';
-            }
-        });
+  currentLang = lang;
+  const langs = ['mn', 'en', 'zh'];
+
+  langs.forEach(l => {
+    const els = document.querySelectorAll('.lang-' + l);
+    els.forEach(el => {
+      // Determine correct display type
+      const tag = el.tagName;
+      const isInline = ['A', 'SPAN', 'BUTTON'].includes(tag);
+      const isTableCell = ['TD', 'TH'].includes(tag);
+      const shouldShow = l === lang;
+
+      if (shouldShow) {
+        el.style.display = isInline ? 'inline' : isTableCell ? 'table-cell' : 'block';
+      } else {
+        el.style.display = 'none';
+      }
     });
+  });
+
+  // Update active button state
+  langs.forEach(l => {
+    const btn = document.getElementById('btn-' + l);
+    if (btn) btn.classList.toggle('active', l === lang);
+  });
+
+  // Keep notice banner visible regardless of content
+  document.querySelectorAll('.notice-banner .lang-' + lang).forEach(el => {
+    el.style.display = 'inline';
+  });
 }
-showLang('mn'); // default Mongolian
+
+// ---- MOBILE DRAWER ----
+function toggleDrawer() {
+  const drawer = document.getElementById('nav-drawer');
+  const ham = document.getElementById('hamburger');
+  const isOpen = drawer.style.display === 'flex';
+  drawer.style.display = isOpen ? 'none' : 'flex';
+  ham.classList.toggle('open', !isOpen);
+}
+
+function closeDrawer() {
+  document.getElementById('nav-drawer').style.display = 'none';
+  document.getElementById('hamburger').classList.remove('open');
+}
+
+// Close drawer on outside click
+document.addEventListener('click', e => {
+  const drawer = document.getElementById('nav-drawer');
+  const ham = document.getElementById('hamburger');
+  if (!drawer.contains(e.target) && !ham.contains(e.target)) {
+    if (drawer.style.display === 'flex') closeDrawer();
+  }
+});
+
+// ---- FORM SUBMIT (placeholder) ----
+function handleFormSubmit() {
+  const msgs = {
+    mn: 'Баярлалаа! Бид тантай удахгүй холбогдох болно.',
+    en: 'Thank you! We will be in touch soon.',
+    zh: '感谢您的留言！我们将尽快与您联系。'
+  };
+  alert(msgs[currentLang]);
+}
+
+// ---- INIT ----
+showLang('mn');
 </script>
 
 </body>
